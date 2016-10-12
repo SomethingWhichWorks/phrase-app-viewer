@@ -1,6 +1,46 @@
 {
-    "phraseAppUrl": "http://api.phraseapp.com/api/v2/projects//locales/",
-    "LOCALES":"da-DK en-DK en-engineering en-FI en-NO en-SE fi-FI nb-NO sv-FI sv-SE",
-	"LOCALE_IDS":"",
-    "ACCESS_TOKEN":""
+  "phraseAppUrl": "https://api.phraseapp.com/api/v2/projects/b2b0fefb62b8d6decdf8101eb018a765/locales/",
+  "LOCALES": [
+    {
+      "locale": "da-DK",
+      "id": "cb632b87d27e11baf7a171db8b5b8ece"
+    },
+    {
+      "locale": "en-DK",
+      "id": "2c383330ee7276c8ab5c7f81b4abaae7"
+    },
+    {
+      "locale": "en-engineering",
+      "id": "307174e2a9fa3f22498d4a08382dd6b6"
+    },
+    {
+      "locale": "en-FI",
+      "id": "bd1c4556a65d5f6379bdc2ccf2088f27"
+    },
+    {
+      "locale": "en-NO",
+      "id": "351e66ff726235a888d7b257ad0b0c1d"
+    },
+    {
+      "locale": "en-SE",
+      "id": "87edcd6ecd44a73dc3fdb6bf3ab189ca"
+    },
+    {
+      "locale": "fi-FI",
+      "id": "22e56eb4f435a6f006d87f621701c0ec"
+    },
+    {
+      "locale": "nb-NO",
+      "id": "390d8d4968d0d6f9dafeb0b8a3002a6e"
+    },
+    {
+      "locale": "sv-FI",
+      "id": "203f9d6f7af5094d0c5c09cf8b21328f"
+    },
+    {
+      "locale": "sv-SE",
+      "id": "296feb28a7c1f9ed2cca30673d816a79"
+    }
+  ],
+  "ACCESS_TOKEN": "82e30d41fa71ec21d9d535777e2298001a9ca7ca8270145e33fdb84889d55cc1"
 }

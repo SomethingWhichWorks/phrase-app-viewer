@@ -29,7 +29,12 @@ export function httpRequest(uri: string) {
 export function readFile(fileName: string) {
     return new Promise<string>((resolve, reject) => {
         fs.readFile(fileName, 'utf8', (error, data) => {
-            error ? reject(error) : resolve(data);
+            if(error) {
+                console.log(error);
+                reject(error)
+            } else {
+                resolve(data);
+            }
         });
     });
 }
