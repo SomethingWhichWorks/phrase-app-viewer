@@ -1,3 +1,33 @@
 node_modules
 typings
 built
+
+*.sw*
+*~
+build/
+dist/
+docs/
+node_modules/
+vendor/
+docs/ls
+.sass-cache/
+reports/
+test-results.xml
+.tmp/
+demo/
+
+## Idea
+.idea
+*.iml
+*.ipr
+*.iws
+
+## mac
+.DS_Store
+
+## windows
+Thumbs.db
+
+## log files
+*.log
+

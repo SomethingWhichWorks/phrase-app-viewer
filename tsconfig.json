@@ -8,6 +8,6 @@
     },
     "files": [
         "./src/server.ts",
-        "./typings/main.d.ts"
+        "./typings/index.d.ts"
     ]
 }

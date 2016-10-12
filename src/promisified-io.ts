@@ -1,12 +1,13 @@
 import * as fs from "fs";
 import * as request from "request";
+import * as http from "http";
 
 export function httpRequest(uri: string) {
     return new Promise<string>((resolve, reject) => {
         let options = {
-            uri,
-            headers: {
-                "User-Agent": "Node Reddit Server v0.4"
+            url: uri,
+            headers : {
+                "Content-Type": "application/json"
             }
         };
         request(options, (error, response, body) => {
@@ -21,6 +22,7 @@ export function httpRequest(uri: string) {
                 resolve(body);
             }
         });
+
     });
 }
 

@@ -1,7 +1,9 @@
 {
-  "name": "reddit-node-query",
+  "name": "phrase-app-viewer",
   "version": false,
-  "dependencies": {},
+  "dependencies": {
+    "debug": "registry:npm/debug#2.0.0+20160723033700"
+  },
   "ambientDependencies": {
     "express": "registry:dt/express#4.0.0+20160208031452",
     "form-data": "registry:dt/form-data#0.0.0+20150826060748",
