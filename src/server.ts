@@ -59,10 +59,13 @@ async function getDataFromPhraseApp() {
             var array:Object[] = [];
             _.forEach(data, function(arr){
                 _.forEach(arr, function(collection) {
-                   array.push(collection);
+                   _.forEach(collection, function(value, key) {
+                       array.push({ 'key': key, 'value': value });   
+                   });
                 });
             });
-            mainResolve(array);
+
+            mainResolve(UnionAndNormalize(array));
         }, (errors) => {
             console.log(errors);
             mainReject(errors);
@@ -81,7 +84,10 @@ async function triggerPull(localeIdData:any) {
                 let phraseAppDownloadUrl = phraseAppURl.concat(locale.id, '/download?file_format=json&access_token=', accessToken);
                 console.log('download url : ', phraseAppDownloadUrl);
                 httpRequest(`${phraseAppDownloadUrl}`).then(body => {
-                    var response = {'locale':locale.locale, 'labels':JSON.parse(body)};
+                    //var response = {'locale':locale.locale, 'labels':JSON.parse(body)};
+                    
+                    var response = normalizeResponse(JSON.parse(body), locale.locale);
+
                     resolve(response);
                 })
                 .catch(err => {
@@ -99,8 +105,33 @@ async function triggerPull(localeIdData:any) {
     });
 }
 
-function normalizeLabelData(data: Object) {
+function normalizeResponse(data: Object, locale: string) {
+    return _.forEach(data, function(value:any, key:string){
+        value['locale'] = locale;
+    });
+}
 
+function UnionAndNormalize(data: Object[]) {
+
+   /* var returnVal =  _
+        .chain(data)
+        .groupBy(data, 'key')
+        .toPairs()
+        .map(function(currentObject: any) {
+            return currentObject.value;     
+        })
+        .value();
+
+    return returnVal;*/
+
+    /*return _.map(_.groupBy(data, 'key'), function(currentObj:any) {
+        return currentObj.value;   
+    });*/
+
+    return _
+        .chain(data)
+        .groupBy('key')
+        .value();
 }
 
 function generateJSON() {
