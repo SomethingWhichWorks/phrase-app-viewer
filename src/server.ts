@@ -112,26 +112,32 @@ function normalizeResponse(data: Object, locale: string) {
 }
 
 function UnionAndNormalize(data: Object[]) {
-
-   /* var returnVal =  _
-        .chain(data)
-        .groupBy(data, 'key')
-        .toPairs()
-        .map(function(currentObject: any) {
-            return currentObject.value;     
-        })
-        .value();
-
-    return returnVal;*/
-
-    /*return _.map(_.groupBy(data, 'key'), function(currentObj:any) {
-        return currentObj.value;   
-    });*/
-
-    return _
+   /* return _
         .chain(data)
         .groupBy('key')
         .value();
+*/
+
+    /*var grouped = _.groupBy(data, 'key');
+      return grouped;
+    */
+    /*var reduced = _.map(grouped,
+        function(object: any, param: any) {
+
+            object[param.value.locale] = param.value;
+            console.log(JSON.stringify(object));
+            return object;
+        });
+*/
+    /*var reduced = _.zipObject(_.map(data, 'value.locale'), _.map(data, 'value'));*/   
+
+     return _
+        .chain(data)
+        .groupBy('key')
+        .value();
+
+
+   
 }
 
 function generateJSON() {
