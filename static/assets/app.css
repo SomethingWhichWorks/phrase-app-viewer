@@ -1,0 +1,27 @@
+md-no-animations,
+md-dialog.md-transition-in,
+md-dialog.md-transition-out {
+    -webkit-transform: none !important;
+    transform: none !important;
+}
+
+md-dialog {
+    min-width: 400px;
+}
+md-dialog form {
+    padding: 15px;
+    margin-top: 30px;
+}
+
+md-input-container .md-input-messages-animation {
+    max-width: 300px;
+}
+md-input-container:not(.md-input-invalid) md-icon.email {
+    color: green;
+}
+md-input-container:not(.md-input-invalid) md-icon.name, md-input-container:not(.md-input-invalid) md-icon.phone {
+    color: dodgerblue;
+}
+md-input-container.md-input-invalid md-icon.name, md-input-container.md-input-invalid md-icon.email, md-input-container.md-input-invalid md-icon.phone {
+    color: red;
+}

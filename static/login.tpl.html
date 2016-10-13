@@ -1,0 +1,46 @@
+<md-dialog aria-label="HiRez.io Login" md-theme="login">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Wait wait, first login...</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Cancel"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width:500px;max-height:600px; ">
+        <form name="accountLogin">
+
+            <md-input-container class="md-block">
+                <label>eMail</label>
+                <md-icon md-svg-src="img/icons/ic_email_24px.svg" class="email"></md-icon>
+                <input ng-model="user.email" type="email" name="email"
+                       minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" required>
+                <div ng-messages="accountLogin.email.$error" role="alert">
+                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                        Your email must be between 10 and 100 characters long and look like an e-mail address.
+                    </div>
+                </div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Company</label>
+                <md-icon md-svg-src="img/icons/ic_person_24px.svg" class="name"></md-icon>
+                <input ng-model="user.company" type="text" name="company">
+            </md-input-container>
+
+
+            <md-input-container md-no-float class="md-block">
+                <label>Phone</label>
+                <md-icon md-svg-src="img/icons/ic_phone_24px.svg" class="phone"></md-icon>
+                <input ng-model="user.phone" type="text" minlength="7" name="phone">
+            </md-input-container>
+        </form>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" md-whiteframe="2">
+        <md-button ng-click="register()"> Not a Member?</md-button>
+        <span flex> </span>
+        <md-button ng-click="cancel()">Cancel</md-button>
+        <md-button ng-click="login()" md-autofocus class="md-raised md-primary"> Login</md-button>
+    </md-dialog-actions>
+</md-dialog>
