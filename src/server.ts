@@ -134,9 +134,38 @@ function UnionAndNormalize(data: Object[]) {
      return _
         .chain(data)
         .groupBy('key')
+        .toPairs()
+        .map((object:any) => {
+            //console.log('Object:', JSON.stringify(object[0]));
+            //console.log('Inner Object:', object[1]);
+            let object1:any = {
+                'key': object[0],
+                'labels': []
+            };
+
+           /* _.forEach(object[1], function(labelCollection:any){
+                let tempObj = _.zipObject(_.map(labelCollection, 'value.locale'),
+                    _.map(labelCollection, 'value'));
+
+                console.log('Object:', labelCollection);
+                console.log('Key:', _.map(labelCollection, 'value.locale'));
+                console.log('value:', _.map(labelCollection, 'value'));    
+                
+                object1.labels.push(tempObj); 
+            });*/
+
+            let tempObjs = _.zipObject(_.map(object[1], 'value.locale'),
+                _.map(object[1], 'value'));
+
+            /*console.log('Object:', labelCollection);
+            console.log('Key:', _.map(labelCollection, 'value.locale'));
+            console.log('value:', _.map(labelCollection, 'value'));*/
+
+            object1.labels = tempObjs; 
+
+            return object1;    
+        })
         .value();
-
-
    
 }
 
