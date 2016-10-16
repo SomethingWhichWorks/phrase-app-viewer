@@ -1,0 +1,20 @@
+<h2>Phrase App Keys</h2>
+  <ul class="phrase-app-keys">
+  <li *ngFor="let message of messages" (click)="onSelect(message)" [class.selected]="message === selectedMessage">
+    <span class="message-element">
+      <span class="badge">{{message.key}}</span> {{message.key}}
+      <br>
+    </span>
+  </li>
+</ul>
+
+<div class="error" *ngIf="error">{{error}}</div>
+
+<div *ngIf="selectedMessage">
+  <h2>
+    Phrase App Key :  {{selectedMessage.Key | uppercase}}
+    <li *ngFor="let label of labels">
+        {{label}}
+    </li>
+  </h2>
+</div>

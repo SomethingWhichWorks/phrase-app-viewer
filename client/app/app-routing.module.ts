@@ -8,6 +8,14 @@ import { DashboardComponent } from './dashboard.component';
 import { HeroesComponent } from './heroes.component';
 import { HeroDetailComponent } from './hero-detail.component';
 
+/**
+ * Phrase App components and services
+ */
+import { PhraseAppDashboardComponent } from './phrase-app/phrase-app-dashboard/phrase-app-dashboard.component';
+import { MessageDetailsComponent } from './phrase-app/message-details/message-details.component';
+import { PhraseAppListComponent } from './phrase-app/phrase-app-list/phrase-app-list.component';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -25,6 +33,19 @@ const routes: Routes = [
   {
     path: 'heroes',
     component: HeroesComponent
+  },
+  /** Phrase App Routes  */
+  {
+    path: 'phraseappdashboard',
+    component: PhraseAppDashboardComponent
+  },
+  {
+    path: 'phraseapplist',
+    component: PhraseAppListComponent
+  },
+  {
+    path: 'messageDetails/:key',
+    component: MessageDetailsComponent
   }
 ];
 
@@ -34,4 +55,11 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const routedComponents = [DashboardComponent, HeroesComponent, HeroDetailComponent];
+export const routedComponents = [
+  DashboardComponent,
+  HeroesComponent,
+  HeroDetailComponent,
+  PhraseAppListComponent,
+  PhraseAppDashboardComponent,
+  MessageDetailsComponent
+];

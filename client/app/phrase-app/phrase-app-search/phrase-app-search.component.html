@@ -1,0 +1,10 @@
+ <div id="phrase-app-search-component">
+  <h4>Phrase App Message Key Search </h4>
+  <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+  <div>
+    <div *ngFor="let message of messages | async"
+         (click)="gotoDetail(message)" class="search-result" >
+      {{message.key}}
+    </div>
+  </div>
+</div>

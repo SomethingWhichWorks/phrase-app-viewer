@@ -15,6 +15,14 @@ import { AppComponent } from './app.component';
 import { HeroService } from './hero.service';
 import { HeroSearchComponent } from './hero-search.component';
 
+/**
+ * Phrase App Imports
+ */
+import { PhraseAppSearchComponent } from './phrase-app/phrase-app-search/phrase-app-search.component';
+import { PhraseAppService } from './phrase-app/services/phrase-app.service';
+import { PhraseAppSearchService } from './phrase-app/services/phrase-app-search.service';
+
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -26,10 +34,13 @@ import { HeroSearchComponent } from './hero-search.component';
   declarations: [
     AppComponent,
     HeroSearchComponent,
+    PhraseAppSearchComponent,
     routedComponents
   ],
   providers: [
-    HeroService
+    HeroService,
+    PhraseAppService,
+    PhraseAppSearchService
   ],
   bootstrap: [AppComponent]
 })
