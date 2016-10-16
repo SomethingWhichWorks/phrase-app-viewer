@@ -28,7 +28,6 @@ System.config({
 
     // other libraries
     'rxjs': 'npm:rxjs',
-    'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
     'lodash': 'npm:lodash/lodash.js'
   },
   meta: {
@@ -38,9 +37,8 @@ System.config({
   packages: {
     'app': { main: './main.js', defaultExtension: 'js' },
     'api': { defaultExtension: 'js' },
-    'rxjs': { defaultExtension: 'js' },
-    'angular-in-memory-web-api': { main: './index.js', defaultExtension: 'js' },
-
+    'rxjs': { defaultExtension: 'js' }
+    
     // barrels
     // 'app/core':   { main: 'index'},
     // 'app/models': { main: 'index'},
