@@ -16,7 +16,7 @@ export class PhraseAppSearchService {
             .getMessages()
             .then((messages) => {
                 return _.filter(messages, function(message){
-                    return message.key.indexOf(term) !== -1;                        
+                    return message.key.toUpperCase().indexOf(term.toUpperCase()) !== -1;                        
                 });
             });
     }
