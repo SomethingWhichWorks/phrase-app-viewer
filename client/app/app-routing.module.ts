@@ -20,7 +20,7 @@ const routes: Routes = [
     component: PhraseAppDashboardComponent
   },
   {
-    path: 'phraseapplist',
+    path: 'phrase-app-list',
     component: PhraseAppListComponent
   },
   {

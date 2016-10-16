@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Message } from '../models/message';
 import { PhraseAppService } from './phrase-app.service';
 
+import * as _ from 'lodash';
+
 @Injectable()
 export class PhraseAppSearchService {
     constructor(private phraseAppService: PhraseAppService) { }
@@ -13,7 +15,9 @@ export class PhraseAppSearchService {
         return this.phraseAppService
             .getMessages()
             .then((messages) => {
-                return messages;
+                return _.filter(messages, function(message){
+                    return message.key.indexOf(term) !== -1;                        
+                });
             });
     }
 }

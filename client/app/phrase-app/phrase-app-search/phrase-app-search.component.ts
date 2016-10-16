@@ -11,13 +11,14 @@ import { Message } from '../models/message';
   selector: 'phrase-app-search',
   /*templateUrl: 'phrase-app-search.component.html',*/
   template: `
-  <div id="phrase-app-search-component">
-  <h4>Phrase App Message Key Search </h4>
-  <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+   
+  <div class="phrase-app-search-component">
+  <input #searchBox id="search-box" class="search-box" (keyup)="search(searchBox.value)" />
+  <br><br>
   <div>
     <div *ngFor="let message of messages | async"
          (click)="gotoDetail(message)" class="search-result" >
-      {{message.key}}
+      <h4> {{message.key}} </h4>
     </div>
   </div>
 </div>

@@ -11,7 +11,19 @@ export class PhraseAppService {
     private phraseAppUrl = '/api/phraseapp/data.json';  // URL to web api
     private phraseAppData: Message[] = [];
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+        this.init();
+    }
+
+    private init() {
+        this.http
+            .get(this.phraseAppUrl)
+            .toPromise()
+            .then(response => {
+                this.phraseAppData = response.json();
+            })
+            .catch(this.handleError);
+    }
 
     getMessages(): Promise<Message[]> {
         return new Promise((resolve, reject) => {
