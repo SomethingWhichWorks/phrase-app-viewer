@@ -6,7 +6,7 @@ export function httpRequest(uri: string) {
     return new Promise<string>((resolve, reject) => {
         var options = {
             url: uri,
-            headers : {
+            headers: {
                 "Content-Type": "application/json"
             }
         };
@@ -29,7 +29,7 @@ export function httpRequest(uri: string) {
 export function readFile(fileName: string) {
     return new Promise<string>((resolve, reject) => {
         fs.readFile(fileName, 'utf8', (error, data) => {
-            if(error) {
+            if (error) {
                 console.log(error);
                 reject(error)
             } else {

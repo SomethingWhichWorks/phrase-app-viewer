@@ -49,11 +49,11 @@ gulp.task('build:server', function () {
     var tsProject = ts.createProject(fileConfigs.server.tsConfigFile);
 
     var tsResult = gulp.src(fileConfigs.server.sourceTsFiles)
-        /*.pipe(sourcemaps.init())*/
+        .pipe(sourcemaps.init())
         .pipe(ts(tsProject))
 
     return tsResult.js
-        /*.pipe(sourcemaps.write())*/
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(fileConfigs.bundle.outputDirectory));
 
 });
