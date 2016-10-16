@@ -68,21 +68,22 @@ gulp.task('build:server:copyConfigFiles', function () {
  * Copy all required libraries into build directory.
  */
 gulp.task('build:libs', function () {
-
+    
     var dependencies = [
-        'angular2/bundles/angular2-polyfills.js',
+        'core-js/client/shim.min.js',
+        'systemjs/dist/system-polyfills.js',
         'systemjs/dist/system.src.js',
-        'rxjs/bundles/Rx.js',
-        'angular2/bundles/angular2.dev.js',
-        'angular2/bundles/router.dev.js'
+        'reflect-metadata/Reflect.js',
+        'rxjs/**/*.js',
+        'zone.js/dist/**',
+        '@angular/**/bundles/**',
+        'angular-in-memory-web-api/*.js'
     ];
-
-    var mappedPaths = dependencies.map(file => { return path.resolve('node_modules', file) })
-
+     var mappedPaths = dependencies.map(file => {return path.resolve('node_modules', file)}) 
     //Let's copy our head dependencies into a dist/libs
-    gulp.src(mappedPaths, { base: 'node_modules' })
+    gulp.src(mappedPaths, {base:'node_modules'})
         .pipe(gulp.dest(fileConfigs.bundle.outputDirectory + "/libs"))
-
+    
 });
 
 gulp.task('build:index', function () {

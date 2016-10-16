@@ -1,34 +1,27 @@
+<!DOCTYPE html>
 <html>
+<head>
+  <base href="/">
+  <title>Angular 2 Tour of Heroes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <head>
-    <title>newfamily-example</title>
-    <base href="/"/>
+  <link rel="stylesheet" href="styles.css">
 
-    <!-- 1. Load libraries -->
-    <script src="libs/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="libs/systemjs/dist/system.src.js"></script>
-    <script src="libs/rxjs/bundles/Rx.js"></script>
-    <script src="libs/angular2/bundles/angular2.dev.js"></script>
-    <script src="libs/angular2/bundles/router.dev.js"></script>
+  <!-- IE required polyfills, in this exact order -->
+  <script src="libs/core-js/client/shim.min.js"></script>
+  <script src="libs/zone.js/dist/zone.js"></script>
+  <script src="libs/reflect-metadata/Reflect.js"></script>
+  <script src="libs/systemjs/dist/system.src.js"></script>
 
-    <!-- 2. Configure SystemJS -->
-    <script>
-      System.config({
-        packages: {        
-          app: {
-            format: 'register',
-            defaultExtension: 'js'
-          }
-        }
-      });
-      System.import('app/bootstrap')
-            .then(null, console.error.bind(console));
-    </script>
+  <script>
+    System.import('system-config.js').then(function () {
+        System.import('main');
+      }).catch(console.error.bind(console));
+  </script>
+</head>
 
-  </head>
-  <!-- 3. Display the application -->
-  <body>
-    <my-app>Loading...</my-app>
-  </body>
+<body>
+  <my-app>Loading...</my-app>
+</body>
 
 </html>

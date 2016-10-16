@@ -25,7 +25,7 @@ app.get("/phraseapp/data.json", (req:any, res:any) => {
     });
 });
 
-app.use("/", express.static(__dirname + "/../static"));
+app.use("/", express.static(__dirname));
 
 const server = app.listen(8000, () => {
     console.log("Server listening on port 8000");
