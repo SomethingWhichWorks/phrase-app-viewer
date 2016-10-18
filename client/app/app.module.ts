@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { MaterialModule } from '@angular/material';
 
 import './rxjs-extensions';
 import { AppRoutingModule, routedComponents } from './app-routing.module';
@@ -22,7 +23,8 @@ import { PhraseAppSearchService } from './phrase-app/services/phrase-app-search.
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpModule
+    HttpModule,
+    MaterialModule.forRoot()
   ],
   declarations: [
     AppComponent,
