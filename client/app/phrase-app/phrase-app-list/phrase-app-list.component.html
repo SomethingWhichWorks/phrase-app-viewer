@@ -1,0 +1,22 @@
+<div class="warning" *ngIf="loadingMessage">{{loadingMessage}}</div>
+<div class="error" *ngIf="error">{{error}}</div>
+<div *ngIf="selectedMessage">
+	<h2>Preview Section</h2>
+	<h2>
+		Phrase App Key : {{selectedMessage.key | uppercase}}
+	</h2>
+	<pre>
+		{{selectedMessage.labels | json }}
+	</pre>
+	<button (click)="gotoDetail()">View Message Details</button>
+	<hr>
+</div>
+<h2>Phrase App Keys</h2>
+<ul class="phrase-app-keys">
+	<li *ngFor="let message of messages" (click)="onSelect(message)" [class.selected]="message === selectedMessage">
+		<span class="message-element">
+        <span class="badge"> <h4> {{message.key}} </h4> </span>
+		<br>
+		</span>
+	</li>
+</ul>
