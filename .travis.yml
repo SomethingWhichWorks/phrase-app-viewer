@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "6.2.0"
+env:
+  - NODE_ENV=travis
+branches:
+  except:
+    - /-nobuild$/
+cache:
+  apt : true
+  directories:
+    - node_modules
+notifications:
+  email:
+      - kulkarni.mak172@gmail.com
