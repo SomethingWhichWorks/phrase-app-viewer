@@ -7,20 +7,8 @@ import { PhraseAppService } from '../services/phrase-app.service';
 @Component({
   moduleId: module.id,
   selector: 'message-details',
-  /*templateUrl: 'message-details.component.html',*/
-  template: `
-  <div *ngIf="message">
-  <h2>{{message.key}} details !</h2>
-  <div>
-    <label>Key: </label>{{message.key}}</div>
-  <div>
-    <label>Other Details: </label>
-    <pre>{{message.labels | json}}</pre>
-  </div>
-  <button (click)="goBack()">Back</button>
-</div>
-  `/*,
-  styleUrls: ['message-details.component.css']*/
+  templateUrl: 'message-details.component.html',
+  styleUrls: ['message-details.component.css']
 })
 export class MessageDetailsComponent implements OnInit {
   @Input() message: Message;

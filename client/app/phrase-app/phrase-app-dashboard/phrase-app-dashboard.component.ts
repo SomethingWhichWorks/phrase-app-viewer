@@ -7,21 +7,10 @@ import { PhraseAppService } from '../services/phrase-app.service';
 @Component({
   moduleId: module.id,
   selector: 'phrase-app-dashboard',
-  /* templateUrl: 'dashboard.component.html',*/
-  template: `<h2>Phrase App Dashboard</h2>
-<!-- <div class="grid grid-pad">
-  <div *ngFor="let message of messages" (click)="gotoDetail(message)" class="col-1-4">
-    <div class="module phrase-app-list">
-      <h4>{{message.key}}</h4>
-    </div>
-  </div>
-</div>  -->
-
-<h3> Search for phrase App Key : </h3>
-<phrase-app-search></phrase-app-search>
-`/*,
-  styleUrls: ['phrase-app-dashboard.component.css']*/
+  templateUrl: 'phrase-app-dashboard.component.html',
+  styleUrls: ['phrase-app-dashboard.component.css']
 })
+
 export class PhraseAppDashboardComponent implements OnInit {
   messages: Message[] = [];
 

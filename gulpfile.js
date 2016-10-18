@@ -21,11 +21,11 @@ var fileConfigs = {
     },
     'client': {
         sourceTsFiles: ['client/**/*.ts'],
-        sourceHtmlFiles: ['client/**/*.html'],
+        sourceResourceFiles: ['client/**/*.html', 'client/**/*.css'],
         additionalFilesToCopy: ['client/systemjs.config.js'],
         ignoreTsFiles: [],
         tsConfigFile: 'client/tsconfig.json',
-        mainIndexFile: 'client/index.html'
+        mainIndexFile: 'client/index.html',
     }
 };
 
@@ -97,7 +97,11 @@ gulp.task('build:index', function () {
     var copyConfigFiles = gulp.src(fileConfigs.client.additionalFilesToCopy)
         .pipe(gulp.dest(fileConfigs.bundle.outputDirectory));
 
-    return [copyIndex, copyConfigFiles];
+         //copy all config files   
+    var copyResourceFiles = gulp.src(fileConfigs.client.sourceResourceFiles)
+        .pipe(gulp.dest(fileConfigs.bundle.outputDirectory));
+
+    return [copyIndex, copyConfigFiles, copyResourceFiles];
 });
 
 gulp.task('build:app', function () {
@@ -130,7 +134,7 @@ gulp.task('watch:all', function () {
         console.log('TypeScript file ' + e.path + ' has been changed. Compiling.');
     });
 
-    gulp.watch(fileConfigs.client.sourceHtmlFiles, ['build:index']).on('change', function (e) {
+    gulp.watch(fileConfigs.client.sourceResourceFiles, ['build:index']).on('change', function (e) {
         console.log('Html file ' + e.path + ' has been changed, bundling again.');
     });
 

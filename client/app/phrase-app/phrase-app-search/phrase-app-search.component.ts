@@ -9,24 +9,9 @@ import { Message } from '../models/message';
 @Component({
   moduleId: module.id,
   selector: 'phrase-app-search',
-  /*templateUrl: 'phrase-app-search.component.html',*/
-  template: `
-   
-  <div class="phrase-app-search-component">
-  <input #searchBox id="search-box" class="search-box" (keyup)="search(searchBox.value)" />
-  <br><br>
-  <div>
-    <div *ngFor="let message of messages | async"
-         (click)="gotoDetail(message)" class="search-result" >
-      <h4> {{message.key}} </h4>
-    </div>
-  </div>
-</div>
-`,
-providers: [PhraseAppSearchService]
-/*
-  styleUrls: ['hero-search.component.css'],*/
-  
+  templateUrl: 'phrase-app-search.component.html',  
+  styleUrls: ['phrase-app-search.component.css'],
+  providers: [PhraseAppSearchService]  
 })
 export class PhraseAppSearchComponent implements OnInit {
   messages: Observable<Message[]>;
