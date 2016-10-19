@@ -10,6 +10,7 @@ import { PhraseAppService } from '../services/phrase-app.service';
   templateUrl: 'message-details.component.html',
   styleUrls: ['message-details.component.css']
 })
+
 export class MessageDetailsComponent implements OnInit {
   @Input() message: Message;
   @Output() close = new EventEmitter();
@@ -37,8 +38,8 @@ export class MessageDetailsComponent implements OnInit {
     });
   }
 
-  goBack(savedHero: Message = null): void {
+  /*goBack(savedHero: Message = null): void {
     this.close.emit(savedHero);
     if (this.navigated) { window.history.back(); }
-  }
+  }*/
 }

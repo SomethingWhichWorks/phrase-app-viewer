@@ -6,7 +6,6 @@ import { Routes, RouterModule } from '@angular/router';
  */
 import { PhraseAppDashboardComponent } from './phrase-app/phrase-app-dashboard/phrase-app-dashboard.component';
 import { MessageDetailsComponent } from './phrase-app/message-details/message-details.component';
-import { PhraseAppListComponent } from './phrase-app/phrase-app-list/phrase-app-list.component';
 
 
 const routes: Routes = [
@@ -29,7 +28,6 @@ const routes: Routes = [
 export class AppRoutingModule { }
 
 export const routedComponents = [
-  PhraseAppListComponent,
   PhraseAppDashboardComponent,
   MessageDetailsComponent
 ];
