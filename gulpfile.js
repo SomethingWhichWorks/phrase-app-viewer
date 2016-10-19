@@ -77,10 +77,12 @@ gulp.task('build:libs', function () {
         'rxjs/**/*.js',
         'zone.js/dist/**',
         '@angular/**/bundles/**',
-        '@angular/material/**',
         'angular-in-memory-web-api/*.js',
         'lodash/*.*',
-        'hammer'
+        'bootstrap/dist/**',
+        'jquery/dist/**',
+        'ng2-bootstrap/bundles/ng2-bootstrap.umd.js',
+        'moment/min/**'
     ];
      var mappedPaths = dependencies.map(file => {return path.resolve('node_modules', file)}) 
     //Let's copy our head dependencies into a dist/libs

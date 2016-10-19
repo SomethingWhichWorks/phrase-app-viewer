@@ -1,10 +1,16 @@
-<div class="phrase-app-search-component">
-	<input #searchBox id="search-box" class="search-box" (keyup)="search(searchBox.value)" />
-	<br><br>
-	<div>
-		<div *ngFor="let message of messages | async" (click)="gotoDetail(message)" class="search-result">
-			<h4> {{message.key}} </h4>
-		</div>
+<form>
+	<div class="form-group">
+		<h4> <strong>Search for any key</strong> </h4>
+		<input #searchBox 
+			id="search-box" 
+			class="form-control input-lg search-box" 
+			(keyup)="search(searchBox.value)" 
+			placeholder="pay or Pay or domestic or cross or CRoss or CroSs" />
+	</div>
+</form>
+<br>
+<div>
+	<div *ngFor="let message of messages | async" (click)="gotoDetail(message)" class="search-result">
+		<h4> {{message.key}} </h4>
 	</div>
 </div>
-

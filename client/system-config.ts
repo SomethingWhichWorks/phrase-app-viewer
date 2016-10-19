@@ -25,11 +25,12 @@ System.config({
     '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
     '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
     '@angular/upgrade': 'npm:@angular/upgrade/bundles/upgrade.umd.js',
-    '@angular/material': 'npm:@angular/material/material.umd.js',
-
+    
     // other libraries
     'rxjs': 'npm:rxjs',
-    'lodash': 'npm:lodash/lodash.js'
+    'lodash': 'npm:lodash/lodash.js',
+    'moment': 'npm:moment/min/moment.min.js',
+    'ng2-bootstrap/ng2-bootstrap': 'npm:ng2-bootstrap/bundles/ng2-bootstrap.umd.js'
   },
   meta: {
     lodash: { format: 'amd' }
