@@ -18,7 +18,6 @@ export class PhraseAppSearchComponent implements OnInit {
   private searchTerms = new Subject<string>();
   private selectedMessage: Message;
 
-
   constructor(
     private phraseAppSearchService: PhraseAppSearchService,
     private router: Router) { }
