@@ -1,8 +1,7 @@
 <form>
 	<div class="form-group">
 		<h4> <strong>Search for any key</strong> </h4>
-		<input #searchBox id="search-box" class="form-control input-lg search-box" (keyup)="search(searchBox.value)" placeholder="pay or Pay or domestic or cross or CRoss or CroSs"
-		/>
+		<input #searchBox id="search-box" class="form-control input-lg search-box" (keyup)="search(searchBox.value)" placeholder="pay or Pay or domestic or cross or CRoss or CroSs" />
 	</div>
 </form>
 <br>
@@ -13,10 +12,10 @@
 	<div *ngFor="let message of messages | async; let rowIndex = index" class="search-result">
 		<div class="jumbotron">
 			<div class="row">
-				<div class="col-md-5 message-key">
+				<div class="col-md-8 message-key">
 					{{message.key}}
 				</div>
-				<div class="col-md-7 action-buttons">
+				<div class="col-md-4 action-buttons">
 					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#message-details-modal">Show More Details</button>
 				</div>
 			</div>
