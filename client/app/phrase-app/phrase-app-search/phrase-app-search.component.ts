@@ -16,6 +16,7 @@ import { Message } from '../models/message';
 export class PhraseAppSearchComponent implements OnInit {
   messages: Observable<Message[]>;
   private searchTerms = new Subject<string>();
+  private selectedMessage: Message;
 
   constructor(
     private phraseAppSearchService: PhraseAppSearchService,
@@ -45,5 +46,13 @@ export class PhraseAppSearchComponent implements OnInit {
   gotoDetail(message: Message): void {
     let link = ['/messageDetails', message.key];
     this.router.navigate(link);
+  }
+
+  setSelectedMessage(message: Message): void {
+    this.selectedMessage = message;
+  }
+
+  clearSelectedMessage(): void {
+    this.selectedMessage = undefined;
   }
 }

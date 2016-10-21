@@ -1,16 +1,17 @@
-.phrase-app-search-component{
-  border-bottom: 1px solid gray;
-  border-left: 1px solid gray;
-  border-right: 1px solid gray;
-  width:195px;
-  height: 20px;
-  padding: 5px;
-  background-color: white;
-  cursor: pointer;
+.search-box {
+    width: 50%;
 }
 
-#search-box{
-  width: 200px;
-  height: 20px;
-  border: 1px solid lightgray;
+.message-locale {
+     font-size: 1.3em;
+     font-weight: bold;
+}
+
+.message-text {
+     font-size: 1.3em;
+}
+
+.message-key {
+     font-size: 1.5em;
+     font-weight: bold;
 }

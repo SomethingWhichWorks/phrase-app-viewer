@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import './rxjs-extensions';
 import { AppRoutingModule, routedComponents } from './app-routing.module';
+import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 /**
  * Application components, Any new componenets goes in here
  */
@@ -22,7 +23,8 @@ import { PhraseAppSearchService } from './phrase-app/services/phrase-app-search.
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpModule
+    HttpModule,
+    Ng2BootstrapModule    
   ],
   declarations: [
     AppComponent,

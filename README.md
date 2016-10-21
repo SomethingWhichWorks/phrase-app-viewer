@@ -14,3 +14,10 @@
 
 #visit browser to check application 
 `http://localhost:3000`   
+
+
+#Help Blogs and URLs :
+
+https://github.com/jelbourn/material2-app
+https://material2-app.firebaseapp.com/
+
