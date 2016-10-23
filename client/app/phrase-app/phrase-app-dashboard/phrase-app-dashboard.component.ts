@@ -12,6 +12,8 @@ import { PhraseAppService } from '../services/phrase-app.service';
 })
 
 export class PhraseAppDashboardComponent implements OnInit {
+   
+  disableSyncButton: boolean;
   constructor(
     private router: Router,
     private phraseAppService: PhraseAppService) {
@@ -19,5 +21,15 @@ export class PhraseAppDashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  refreshKeys(): void {
+    console.log('Refreshing keys ');
+    this.disableSyncButton = true;
+    this.phraseAppService.getMessages(true).then(() => {
+        this.disableSyncButton = false;
+    }, () => {
+       this.disableSyncButton = false;
+    });
   }
 }

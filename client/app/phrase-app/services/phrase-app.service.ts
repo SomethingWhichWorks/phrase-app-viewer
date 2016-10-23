@@ -25,9 +25,9 @@ export class PhraseAppService {
             .catch(this.handleError);
     }
 
-    getMessages(): Promise<Message[]> {
+    getMessages(forceRefresh:boolean): Promise<Message[]> {
         return new Promise((resolve, reject) => {
-            if (this.phraseAppData.length !== 0) {
+            if (this.phraseAppData.length !== 0 && forceRefresh == false) {
                 resolve(this.phraseAppData);
             } else {
                 this.http

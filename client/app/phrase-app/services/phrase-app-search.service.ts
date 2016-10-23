@@ -13,7 +13,7 @@ export class PhraseAppSearchService {
 
     search(term: string): any {
         return this.phraseAppService
-            .getMessages()
+            .getMessages(false)
             .then((messages) => {
                 return _.filter(messages, function (message) {
                     return compare(message, term);

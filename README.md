@@ -1,3 +1,8 @@
+# Travis Build Status #
+https://travis-ci.org/SomethingWhichWorks/phrase-app-viewer.svg?branch=master
+[![Build Status](https://travis-ci.org/SomethingWhichWorks/phrase-app-viewer.svg?branch=master)](https://travis-ci.org/SomethingWhichWorks/phrase-app-viewer)
+
+
 # typescript-express-angular-module
 
 ##Get Started
