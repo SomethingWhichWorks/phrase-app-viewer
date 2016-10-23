@@ -14,8 +14,6 @@ cache:
   apt : true
   directories:
     - node_modules
-before_deploy: 
-  - cd dist    
 deploy:
   provider: heroku
   app: phrase-app-viewer

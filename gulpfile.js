@@ -128,6 +128,12 @@ gulp.task("build:resources", () => {
         .pipe(gulp.dest(fileConfigs.bundle.outputDirectory));
 });
 
+gulp.task("copy:packagejson", () => {
+    return gulp.src(["package.json"])
+        .pipe(gulp.dest(fileConfigs.bundle.outputDirectory));
+});
+
+
 
 
 /**
@@ -158,5 +164,5 @@ gulp.task('build', function (callback) {
 gulp.task('default', ['build']);
 
 gulp.task('gulp-release', function (callback) {
-    runSequence('clean', 'build:server:all', 'build:client:all', callback);
+    runSequence('clean', 'copy:packagejson','build:server:all', 'build:client:all', callback);
 });
