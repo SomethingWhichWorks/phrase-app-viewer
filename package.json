@@ -5,8 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" ",
-    "postinstall": "gulp gulp-release",
-    "start": "node dist/server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "Mahesh Kulkarni <kulkarni.mak172@gmail.com>",
