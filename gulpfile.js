@@ -156,3 +156,7 @@ gulp.task('build', function (callback) {
 });
 
 gulp.task('default', ['build']);
+
+gulp.task('gulp-release', function (callback) {
+    runSequence('clean', 'build:server:all', 'build:client:all', callback);
+});
