@@ -58,6 +58,8 @@ app.use(function (req, res, next) {
 app.use(express.static(__dirname));
 app.use('/', express.static(join(__dirname, '../','dist')));
 
-const server = app.listen(8000, () => {
-    console.log("Server listening on port 8000");
+let port = process.env.PORT || 8080;
+
+const server = app.listen(port, () => {
+    console.log("Server listening on port ", port);
 });
