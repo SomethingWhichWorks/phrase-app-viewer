@@ -3,13 +3,23 @@ node_js:
   - "6.2.0"
 env:
   - NODE_ENV=travis
+install:
+  - npm install
+  - gulp gulp-release
 branches:
-  except:
-    - /-nobuild$/
+  only:
+    - new-setup-with-angular2
+    - master
 cache:
   apt : true
   directories:
     - node_modules
+deploy:
+  provider: heroku
+  app: phrase-app-viewer
+  skip_cleanup: true
+  api_key:
+    secure: "$HEROKU_APP_KEY"
 notifications:
   email:
       - kulkarni.mak172@gmail.com
