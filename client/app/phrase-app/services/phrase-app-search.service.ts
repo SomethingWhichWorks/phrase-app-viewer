@@ -11,31 +11,19 @@ export class PhraseAppSearchService {
     constructor(private phraseAppService: PhraseAppService) { }
 
 
-    search(term: string): any {
+    search(searchTerm: string): any {
         return this.phraseAppService
             .getMessages(false)
             .then((messages) => {
                 return _.filter(messages, function (message) {
-                    return compare(message, term);
+                    return message.key.match(new RegExp('(' + searchTerm + ')', 'i')) ||
+                        (message.labels['en-engineering'] && message.labels['en-engineering'].message.match(new RegExp('(' + searchTerm + ')', 'i'))) ||
+                        (message.labels['sv-SE'] && message.labels['sv-SE'].message.match(new RegExp('(' + searchTerm + ')', 'i'))) ||
+                        (message.labels['da-dk'] && message.labels['da-dk'].message.match(new RegExp('(' + searchTerm + ')', 'i'))) ||
+                        (message.labels['fi-FI'] && message.labels['fi-FI'].message.match(new RegExp('(' + searchTerm + ')', 'i'))) ||
+                        (message.labels['sv-FI'] && message.labels['sv-FI'].message.match(new RegExp('(' + searchTerm + ')', 'i'))) ||
+                        (message.labels['nb-NO'] && message.labels['nb-NO'].message.match(new RegExp('(' + searchTerm + ')', 'i')))
                 });
             });
-
-        function compare(message: Message, searchTerm: string) {
-            let flag: boolean = false;
-            flag = message.key.toUpperCase().indexOf(searchTerm.toUpperCase()) !== -1;
-
-            /*if (!flag) {
-                flag = (message.labels['en-engineering'] && message.labels['en-engineering'].message.toString().toUppperCase().indexOf(searchTerm.toUpperCase()) !== -1) ||
-                    (message.labels['sv-SE'] && message.labels['sv-SE'].message.toString().toUppperCase().indexOf(searchTerm.toUpperCase()) !== -1) ||
-                    (message.labels['da-dk'] && message.labels['da-dk'].message.toString().toUppperCase().indexOf(searchTerm.toUpperCase()) !== -1) ||
-                    (message.labels['fi-FI'] && message.labels['fi-FI'].message.toString().toUppperCase().indexOf(searchTerm.toUpperCase()) !== -1) ||
-                    (message.labels['sv-FI'] && message.labels['sv-FI'].message.toString().toUppperCase().indexOf(searchTerm.toUpperCase()) !== -1) ||
-                    (message.labels['nb-NO'] && message.labels['nb-NO'].message.toString().toUppperCase().indexOf(searchTerm.toUpperCase()) !== -1)
-
-            }*/
-
-            return flag;
-        }
-
     }
 }

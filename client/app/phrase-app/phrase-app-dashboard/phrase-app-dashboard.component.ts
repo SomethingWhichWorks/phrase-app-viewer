@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 import { Message } from '../models/message';
 import { PhraseAppService } from '../services/phrase-app.service';
+
 
 @Component({
   moduleId: module.id,
@@ -13,23 +15,31 @@ import { PhraseAppService } from '../services/phrase-app.service';
 
 export class PhraseAppDashboardComponent implements OnInit {
    
-  disableSyncButton: boolean;
+  disableAll: boolean;
+  lastLoadedTime: string;
   constructor(
     private router: Router,
     private phraseAppService: PhraseAppService) {
   }
 
   ngOnInit(): void {
-
+    var currentDate = moment().format();
+    this.lastLoadedTime = currentDate;
   }
 
   refreshKeys(): void {
     console.log('Refreshing keys ');
-    this.disableSyncButton = true;
+    this.disableAll = true;
     this.phraseAppService.getMessages(true).then(() => {
-        this.disableSyncButton = false;
+        var currentDate = moment().format();
+        this.lastLoadedTime = currentDate;
+        this.disableAll = false;
     }, () => {
-       this.disableSyncButton = false;
+       this.disableAll = false;
     });
+  }
+
+  getLastLoaded() {
+    return moment(this.lastLoadedTime).calendar();
   }
 }
