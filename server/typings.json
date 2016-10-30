@@ -2,6 +2,7 @@
   "name": "Typescript-Express-Angular-Module",
   "version": false,
   "dependencies": {
+    "body-parser": "registry:npm/body-parser#1.15.2+20160815132839",
     "debug": "registry:npm/debug#2.0.0+20160723033700"
   },
   "ambientDependencies": {

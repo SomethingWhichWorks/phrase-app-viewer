@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { PhraseAppSearchService } from '../services/phrase-app-search.service';
+import { PhraseAppSearchService } from '../../services/phrase-app-search.service';
 import { Message } from '../models/message';
 
 @Component({

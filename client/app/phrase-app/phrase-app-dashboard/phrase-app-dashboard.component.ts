@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 import { Message } from '../models/message';
-import { PhraseAppService } from '../services/phrase-app.service';
+import { PhraseAppService } from '../../services/phrase-app.service';
 
 
 @Component({

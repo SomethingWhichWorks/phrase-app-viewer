@@ -14,8 +14,9 @@ import { AppComponent } from './app.component';
  * Phrase App Imports
  */
 import { PhraseAppSearchComponent } from './phrase-app/phrase-app-search/phrase-app-search.component';
-import { PhraseAppService } from './phrase-app/services/phrase-app.service';
-import { PhraseAppSearchService } from './phrase-app/services/phrase-app-search.service';
+import { PhraseAppService } from './services/phrase-app.service';
+import { PhraseAppSearchService } from './services/phrase-app-search.service';
+import { LoginService } from './services/login-app.service';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { PhraseAppSearchService } from './phrase-app/services/phrase-app-search.
   ],
   providers: [
     PhraseAppService,
-    PhraseAppSearchService
+    PhraseAppSearchService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })
