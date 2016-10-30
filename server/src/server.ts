@@ -1,15 +1,38 @@
 import { getDataFromPhraseApp } from "./phraseAppService";
+import { authenticateUser } from "./login.service";
+
 import { setupConfiguration } from "./configuration";
 import * as express from "express";
+import * as bodyParser from "body-parser";
 import * as _ from "lodash";
 import { join } from "path";
 
 var app = express();
 
+app.use(bodyParser.json());   // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }));  // for parsing application/x-www-form-urlencoded
 /*
  Init the configuration
  */
 setupConfiguration();
+
+
+app.post("/api/login", (req: any, res: any) => {
+    console.log(JSON.stringify(req.body));
+    res.setHeader("Content-Type", "application/json");
+    var resp = authenticateUser(req.body);
+
+    if (!req.body || !req.body.username || !req.body.password) {
+        res.status(400).send({ status: 'NOT_OK', 'error': 'bad request' });
+    } else {
+        if (resp.status === 'OK') {
+            res.status(200).send(authenticateUser(req.body));
+        } else {
+            res.status(404).send(authenticateUser(req.body));
+        }
+    }
+
+});
 
 app.get("/api/phraseapp", (req: any, res: any) => {
     res.setHeader("Content-Type", "application/json");
@@ -56,7 +79,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static(__dirname));
-app.use('/', express.static(join(__dirname, '../','dist')));
+app.use('/', express.static(join(__dirname, '../', 'dist')));
 
 var port = process.env.PORT || 8080;
 

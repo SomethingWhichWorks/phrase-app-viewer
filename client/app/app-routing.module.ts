@@ -6,16 +6,11 @@ import { Routes, RouterModule } from '@angular/router';
  */
 import { PhraseAppDashboardComponent } from './phrase-app/phrase-app-dashboard/phrase-app-dashboard.component';
 import { MessageDetailsComponent } from './phrase-app/message-details/message-details.component';
-import { LoginComponent } from './phrase-app/login/login.component';
+import { LoginComponent } from './login/login.component';
 
 
 const routes: Routes = [
   {
-    path: '',
-    component: PhraseAppDashboardComponent,
-    pathMatch: 'full'
-  },
-  /*{
     path: '',
     component: LoginComponent,
     pathMatch: 'full'
@@ -23,7 +18,7 @@ const routes: Routes = [
   {
     path: 'phrase-app-dashboard',
     component: PhraseAppDashboardComponent
-  },*/
+  },
   {
     path: 'messageDetails/:key',
     component: MessageDetailsComponent

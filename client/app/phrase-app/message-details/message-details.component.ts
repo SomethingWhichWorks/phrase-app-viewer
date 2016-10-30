@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { Message } from '../models/message';
-import { PhraseAppService } from '../services/phrase-app.service';
+import { PhraseAppService } from '../../services/phrase-app.service';
 
 @Component({
   moduleId: module.id,

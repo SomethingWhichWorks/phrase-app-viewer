@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Message } from '../models/message';
+import { Message } from '../phrase-app/models/message';
 import { PhraseAppService } from './phrase-app.service';
 
 import * as _ from 'lodash';

@@ -3,7 +3,7 @@ import { Headers, Http, Response } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Message } from '../models/message';
+import { Message } from '../phrase-app/models/message';
 import * as _ from 'lodash';
 
 @Injectable()
