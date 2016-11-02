@@ -39,14 +39,37 @@ app.get("/api/phraseapp", (req: any, res: any) => {
     res.send({ 'message': 'Reached to server' });
 });
 
+var cachedPhraseappData = {
+    timeStamp : null,
+    data : null
+};
+
 app.get("/api/phraseapp/data.json", (req: any, res: any) => {
-    getDataFromPhraseApp().then(function (body: any) {
-        res.setHeader("Content-Type", "application/json");
-        res.send(body);
-    })
-        .catch(function (err: any) {
-            res.send(err);
-        });
+    var now = Date.now();
+
+    function fetchDataAndSendResponse() {
+        getDataFromPhraseApp().then(function (body: any) {
+                res.setHeader("Content-Type", "application/json");
+                cachedPhraseappData.timeStamp = now;
+                cachedPhraseappData.data = body;    
+                res.send(body);
+            })
+            .catch(function (err: any) {
+                res.send(err);
+            });
+    }
+
+       
+    if(cachedPhraseappData.timeStamp && cachedPhraseappData.data) {
+        if(now - cachedPhraseappData.timeStamp  > 300000) {     // If request comes after 5 minutes, then fetch new data
+            fetchDataAndSendResponse();            
+        } else {
+             res.setHeader("Content-Type", "application/json");
+             res.send(cachedPhraseappData.data);
+        }
+    } else {
+        fetchDataAndSendResponse(); 
+    } 
 });
 
 // Add headers
