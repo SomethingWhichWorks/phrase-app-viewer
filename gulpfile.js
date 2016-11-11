@@ -22,7 +22,7 @@ var fileConfigs = {
     'client': {
         sourceTsFiles: ['client/**/*.ts'],
         sourceResourceFiles: ['client/**/*.html', 'client/**/*.css'],
-        additionalFilesToCopy: ['client/systemjs.config.js'],
+        additionalFilesToCopy: ['client/systemjs.config.js', 'client/auth0-lock.js'],
         ignoreTsFiles: [],
         tsConfigFile: 'client/tsconfig.json',
         mainIndexFile: 'client/index.html',
@@ -82,7 +82,8 @@ gulp.task('build:libs', function () {
         'bootstrap/dist/**',
         'jquery/dist/**',
         'ng2-bootstrap/bundles/ng2-bootstrap.umd.js',
-        'moment/min/**'
+        'moment/min/**',
+        'angular2-jwt/*.js'
     ];
      var mappedPaths = dependencies.map(file => {return path.resolve('node_modules', file)}) 
     //Let's copy our head dependencies into a dist/libs
