@@ -13,7 +13,7 @@ export class AuthService {
   lock = new Auth0Lock('HrvKG65gBQEQVHJBsvA5jDr6JN69VazF', 'maheshk172.eu.auth0.com', {
 
     auth: {
-      redirectUrl: 'phrase-app-dashboard',
+      redirectUrl: 'http://localhost:8080/#/phrase-app-dashboard',
       responseType: 'code'
     }
   });
