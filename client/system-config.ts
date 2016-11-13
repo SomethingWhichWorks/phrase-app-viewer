@@ -42,7 +42,8 @@ System.config({
   packages: {
     'app': { main: './main.js', defaultExtension: 'js' },
     'api': { defaultExtension: 'js' },
-    'rxjs': { defaultExtension: 'js' }
+    'rxjs': { defaultExtension: 'js' },
+    'angular2-jwt': { defaultExtension: 'js' }
     
     // barrels
     // 'app/core':   { main: 'index'},

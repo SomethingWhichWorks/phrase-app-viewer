@@ -2,6 +2,8 @@
 
 import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
+import { Router } from '@angular/router';
+
 
 // Avoid name not found warnings
 declare var Auth0Lock: any;
@@ -10,39 +12,31 @@ declare var Auth0Lock: any;
 export class AuthService {
 
   // Configure Auth0
-  lock = new Auth0Lock('HrvKG65gBQEQVHJBsvA5jDr6JN69VazF', 'maheshk172.eu.auth0.com', {
+  lock = new Auth0Lock('HrvKG65gBQEQVHJBsvA5jDr6JN69VazF', 'maheshk172.eu.auth0.com',
+    {
+      auth: {
+        //redirectUrl: 'http://localhost:8080/#/phrase-app-dashboard',
+        redirect: false
+      },
+      closable: false
+    });
 
-    auth: {
-      redirectUrl: 'http://localhost:8080/#/phrase-app-dashboard',
-      responseType: 'code'
-    }
-  });
-
-  //Store profile object in auth class
-  userProfile: Object;
-
-  constructor() {
-    // Set userProfile attribute of already saved profile
-    this.userProfile = JSON.parse(localStorage.getItem('profile'));
-
+  constructor(private router: Router) {
     // Add callback for lock `authenticated` event
-    this.lock.on("authenticated", (authResult) => {
+    this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
-
       // Fetch profile information
       this.lock.getProfile(authResult.idToken, (error, profile) => {
         if (error) {
-          // Handle error
           alert(error);
           return;
         }
 
         localStorage.setItem('profile', JSON.stringify(profile));
-        this.userProfile = profile;
+        this.router.navigate(['phrase-app-dashboard']);
+        this.lock.hide();
       });
     });
-
-
   }
 
   public login() {
@@ -60,6 +54,15 @@ export class AuthService {
     // Remove token from localStorage
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
-    this.userProfile = undefined;
   };
+
+  public getLoggedInUserName() {
+    var obj = JSON.parse(localStorage.getItem('profile'));
+    console.log(obj);
+    if (obj) {
+      return obj.name;
+    } else {
+      return '';
+    }
+  }
 }
