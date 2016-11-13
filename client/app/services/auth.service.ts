@@ -1,6 +1,6 @@
 // app/auth.service.ts
 
-import { Injectable }      from '@angular/core';
+import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 
 // Avoid name not found warnings
@@ -8,14 +8,41 @@ declare var Auth0Lock: any;
 
 @Injectable()
 export class AuthService {
+
   // Configure Auth0
-  lock = new Auth0Lock('HrvKG65gBQEQVHJBsvA5jDr6JN69VazF', 'maheshk172.eu.auth0.com', {});
+  lock = new Auth0Lock('HrvKG65gBQEQVHJBsvA5jDr6JN69VazF', 'maheshk172.eu.auth0.com', {
+
+    auth: {
+      redirectUrl: 'http://localhost:8080/#/phrase-app-dashboard',
+      responseType: 'code'
+    }
+  });
+
+  //Store profile object in auth class
+  userProfile: Object;
 
   constructor() {
+    // Set userProfile attribute of already saved profile
+    this.userProfile = JSON.parse(localStorage.getItem('profile'));
+
     // Add callback for lock `authenticated` event
     this.lock.on("authenticated", (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
+
+      // Fetch profile information
+      this.lock.getProfile(authResult.idToken, (error, profile) => {
+        if (error) {
+          // Handle error
+          alert(error);
+          return;
+        }
+
+        localStorage.setItem('profile', JSON.stringify(profile));
+        this.userProfile = profile;
+      });
     });
+
+
   }
 
   public login() {
@@ -32,5 +59,7 @@ export class AuthService {
   public logout() {
     // Remove token from localStorage
     localStorage.removeItem('id_token');
+    localStorage.removeItem('profile');
+    this.userProfile = undefined;
   };
 }

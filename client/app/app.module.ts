@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import './rxjs-extensions';
 import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AUTH_PROVIDERS }      from 'angular2-jwt';
 /**
  * Application components, Any new componenets goes in here
  */
@@ -37,7 +38,8 @@ import { AuthService } from './services/auth.service';
     PhraseAppService,
     PhraseAppSearchService,
     LoginService,
-    AuthService
+    AuthService,
+    AUTH_PROVIDERS
   ],
   bootstrap: [AppComponent]
 })

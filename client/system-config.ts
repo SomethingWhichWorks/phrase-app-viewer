@@ -30,7 +30,10 @@ System.config({
     'rxjs': 'npm:rxjs',
     'lodash': 'npm:lodash/lodash.js',
     'moment': 'npm:moment/min/moment.min.js',
-    'ng2-bootstrap/ng2-bootstrap': 'npm:ng2-bootstrap/bundles/ng2-bootstrap.umd.js'
+    'ng2-bootstrap/ng2-bootstrap': 'npm:ng2-bootstrap/bundles/ng2-bootstrap.umd.js',
+
+    //auth0 libraries
+    'angular2-jwt': 'npm:angular2-jwt/angular2-jwt.js'
   },
   meta: {
     lodash: { format: 'amd' }
