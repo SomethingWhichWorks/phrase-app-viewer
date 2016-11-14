@@ -3,7 +3,7 @@ import * as request from "request";
 import * as http from "http";
 
 export function httpRequest(uri: string) {
-    return new Promise<string>((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
         var options = {
             url: uri,
             headers: {
