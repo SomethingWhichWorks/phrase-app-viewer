@@ -3,7 +3,7 @@ import { phraseAppURl, accessToken } from "./configuration";
 import * as _ from "lodash";
 import * as request from "request";
 import * as http from "http";
-import * as url from "url";
+import * as URL from "url";
 
 
 export async function getKeys() {
@@ -16,30 +16,26 @@ export async function getKeys() {
         triggerPullAndFetchLinks(phraseAppDownloadUrl).then((response) => {
                if(response.links) {
                    //3 links are sent, second [1] link contains the last page number
-                   console.log('url: ', response.links[1])
- 
-                   var linkUrlParts = url.parse(response.links[1], true);
-                   console.log('urlParts:', linkUrlParts.query);
+                   var linkUrlParts = URL.parse(response.links[1], true, true);
                    var lastPage = linkUrlParts.query.page;
                    var urls = [];
-
-                   console.log('lastPage: ', lastPage)
-
+                   
                    for(var i=0; i<parseInt(lastPage); i++) {
                        var url = phraseAppURl.concat('translations?access_token=', accessToken, '&page=', i.toString(),'&per_page=100'); 
                        urls.push(url);
                    }
 
                    _.forEach(urls, (link) => {
-                        console.log('download url :', link);
+                        
                         var promise = new Promise((resolve, reject) => {
                             setTimeout(function () {
+                                console.log('download url :', link);
                                 triggerPull(link).then((data) => {
                                     resolve(data);
                                 }, (error) => {
                                     reject(error);
                                 });
-                            }, defaultTimeout += 1000);
+                            }, defaultTimeout += 500);
                         });
                         promises.push(promise);
                    });
@@ -47,26 +43,28 @@ export async function getKeys() {
                    Promise.all(promises).then((data) => {
                         mainResolve(data);
                     }, (errors) => {
-                        //console.log(errors);
+                        console.log(errors);
                         mainReject(errors);
                     });
                }
         }, (err) => {
-            //console.log(err);
+            console.log(err);
             mainReject(err);
+        }).catch((err) => {
+            console.log(err);
         });
     });
 }
 
 async function triggerPull(phraseAppDownloadUrl: any) {
     return new Promise((resolve, reject) => {
-        //console.log('download url in triggerPull: ', phraseAppDownloadUrl);
+        console.log('download url in triggerPull: ', phraseAppDownloadUrl);
         httpRequest(`${phraseAppDownloadUrl}`)
             .then((responseData) => {
                resolve(responseData);
             })
             .catch(err => {
-                //console.log('Unable to download translations :', err);
+                console.log('Unable to download translations :', err);
                 reject(err);
             });
     });
@@ -75,13 +73,11 @@ async function triggerPull(phraseAppDownloadUrl: any) {
 async function triggerPullAndFetchLinks(phraseAppDownloadUrl: any) {
     var phraseAppData = [];
     return new Promise((resolve, reject) => {
-        //console.log('download url in triggerPullAndFetchLinks: ', phraseAppDownloadUrl);
         httpReq(`${phraseAppDownloadUrl}`)
             .then((responseData) => {
                resolve(responseData);
             })
             .catch(err => {
-                //console.log('Unable to download translations :', err);
                 reject(err);
             });
     });
@@ -127,13 +123,10 @@ function getLinks(linkObj) {
     }
 
     function removeAdditionalParams(object) {
-        console.log('object:',object);
         var string = object;
         string = string.substring(0, string.indexOf(';'));
         string = string.replace('<', '');
         string =  string.replace('>', '');
-
-        console.log('final:',string);
         return string;
     }
     
