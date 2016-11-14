@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from './services/auth.service';
@@ -10,11 +10,18 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['app.component.css'],
   providers: [AuthService]
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy, OnInit{
   title = 'Phrase App Viewer';
 
    constructor(
     private authService: AuthService,
     private router: Router) { }
 
+    ngOnInit() {
+      this.authService.logout();
+    }
+
+    ngOnDestroy() {
+      this.authService.logout();
+    }
 }
