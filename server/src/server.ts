@@ -34,15 +34,19 @@ app.post("/api/login", (req: any, res: any) => {
     }
 
 });
-
 app.get("/api/phraseapp", (req: any, res: any) => {
     res.setHeader("Content-Type", "application/json");
     res.send({ 'message': 'Reached to server' });
 });
 
+
+/*
+ *  START : BLOCK - /api/phraseapp/data.json
+ */
+
 var cachedPhraseappData = {
-    timeStamp : null,
-    data : null
+    timeStamp: null,
+    data: null
 };
 
 app.get("/api/phraseapp/data.json", (req: any, res: any) => {
@@ -50,57 +54,98 @@ app.get("/api/phraseapp/data.json", (req: any, res: any) => {
 
     function fetchDataAndSendResponse() {
         getDataFromPhraseApp().then(function (body: any) {
-                res.setHeader("Content-Type", "application/json");
-                cachedPhraseappData.timeStamp = now;
-                cachedPhraseappData.data = body;    
-                res.send(body);
-            })
+            res.setHeader("Content-Type", "application/json");
+            cachedPhraseappData.timeStamp = now;
+            cachedPhraseappData.data = body;
+            res.send(body);
+        })
             .catch(function (err: any) {
                 res.send(err);
             });
     }
 
-       
-    if(cachedPhraseappData.timeStamp && cachedPhraseappData.data) {
-        if(now - cachedPhraseappData.timeStamp  > 300000) {     // If request comes after 5 minutes, then fetch new data
-            fetchDataAndSendResponse();            
+
+    if (cachedPhraseappData.timeStamp && cachedPhraseappData.data) {
+        if (now - cachedPhraseappData.timeStamp > 300000) {     // If request comes after 5 minutes, then fetch new data
+            fetchDataAndSendResponse();
         } else {
-             res.setHeader("Content-Type", "application/json");
-             res.send(cachedPhraseappData.data);
+            res.setHeader("Content-Type", "application/json");
+            res.send(cachedPhraseappData.data);
         }
     } else {
-        fetchDataAndSendResponse(); 
-    } 
+        fetchDataAndSendResponse();
+    }
 });
 
+/*
+   END : BLOCK - /api/phraseapp/data.json
+ */
+
+/**
+ *  Get Translation keys and all data -> experimental
+ *  START : BLOCK /api/phraseapp/keys
+ */
+var isFetchInProgress = false;
+var cachedPhraseappTranslations = {
+    timeStamp: null,
+    data: null
+};
+
+function getCurrentTimeStamp() {
+    return Date.now();
+}
+
+function fetchKeyTranslations() {
+    var now = getCurrentTimeStamp();
+
+    isFetchInProgress = true;
+    return new Promise((resolve, reject) => {
+        getKeys().then((body: any) => {
+            isFetchInProgress = false;
+            cachedPhraseappTranslations.timeStamp = now;
+            cachedPhraseappTranslations.data = body;
+            resolve(body);
+        }, (err) => {
+            isFetchInProgress = false;
+            console.log(err);
+            reject(err);
+        });
+    });
+}
 
 app.get("/api/phraseapp/keys", (req: any, res: any) => {
-    var now = Date.now();
+    var now = getCurrentTimeStamp();
 
-    function fetchDataAndSendResponse() {
-        getKeys().then(function (body: any) {
-                res.setHeader("Content-Type", "application/json");
-                cachedPhraseappData.timeStamp = now;
-                cachedPhraseappData.data = body;    
-                res.send(body);
-            })
-            .catch(function (err: any) {
-                res.send(err);
-            });
-    }       
-    if(cachedPhraseappData.timeStamp && cachedPhraseappData.data) {
-        if(now - cachedPhraseappData.timeStamp  > 300000) {     // If request comes after 5 minutes, then fetch new data
-            fetchDataAndSendResponse();            
+    if (isFetchInProgress) {
+        res.setHeader("Content-Type", "application/json");
+        res.send({ 'message': 'Update is in progress, please try again after some time' });
+    }
+
+    if (cachedPhraseappData.timeStamp && cachedPhraseappData.data) {
+        if (now - cachedPhraseappData.timeStamp > 3600000) {     // If request comes after 5 minutes, then fetch new data
+            fetchKeysAndSendResponse();
         } else {
-             res.setHeader("Content-Type", "application/json");
-             res.send(cachedPhraseappData.data);
+            console.log('Data to be returned : ', cachedPhraseappData.data.length);
+            res.setHeader("Content-Type", "application/json");
+            res.send(cachedPhraseappTranslations.data);
         }
     } else {
-        fetchDataAndSendResponse(); 
-    } 
+        fetchKeysAndSendResponse();
+    }
+
+    // Force Fetch data if needed
+    function fetchKeysAndSendResponse() {
+        fetchKeyTranslations().then(() => {
+            res.setHeader("Content-Type", "application/json");
+            res.send(cachedPhraseappTranslations.data);
+        }, (err) => {
+            res.status = 500;
+            res.send(err);
+        });
+    }
 });
 
-
+//  END: BLOCK /api/phraseapp/keys
 
 // Add headers
 app.use(function (req, res, next) {
@@ -138,4 +183,5 @@ var port = process.env.PORT || 8080;
 
 const server = app.listen(port, () => {
     console.log("Server listening on port ", port);
+    //fetchKeyTranslations();
 });

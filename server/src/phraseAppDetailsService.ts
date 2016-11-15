@@ -5,48 +5,47 @@ import * as request from "request";
 import * as http from "http";
 import * as URL from "url";
 
-
 export async function getKeys() {
     var self = this;
     var defaultTimeout = 500;
     var phraseAppDownloadUrl = phraseAppURl.concat('translations?access_token=', accessToken, '&page=1&per_page=100');
-
     return new Promise((mainResolve, mainReject) => {
         var promises: Promise<any>[] = [];
         triggerPullAndFetchLinks(phraseAppDownloadUrl).then((response) => {
-               if(response.links) {
-                   //3 links are sent, second [1] link contains the last page number
-                   var linkUrlParts = URL.parse(response.links[1], true, true);
-                   var lastPage = linkUrlParts.query.page;
-                   var urls = [];
-                   
-                   for(var i=0; i<parseInt(lastPage); i++) {
-                       var url = phraseAppURl.concat('translations?access_token=', accessToken, '&page=', i.toString(),'&per_page=100'); 
-                       urls.push(url);
-                   }
+            if (response.links) {
+                //3 links are sent, second [1] link contains the last page number
+                var linkUrlParts = URL.parse(response.links[1], true, true);
+                var lastPage = linkUrlParts.query.page;
+                var urls = [];
 
-                   _.forEach(urls, (link) => {
-                        
-                        var promise = new Promise((resolve, reject) => {
-                            setTimeout(function () {
-                                console.log('download url :', link);
-                                triggerPull(link).then((data) => {
-                                    resolve(data);
-                                }, (error) => {
-                                    reject(error);
-                                });
-                            }, defaultTimeout += 500);
-                        });
-                        promises.push(promise);
-                   });
+                //Test 
+                lastPage = 4;
 
-                   Promise.all(promises).then((data) => {
-                        mainResolve(data);
-                    }, (errors) => {
-                        console.log(errors);
-                        mainReject(errors);
+                for (var i = 0; i < parseInt(lastPage); i++) {
+                    var url = phraseAppURl.concat('translations?access_token=', accessToken, '&page=', i.toString(), '&per_page=100');
+                    urls.push(url);
+                }
+                _.forEach(urls, (link) => {
+
+                    var promise = new Promise((resolve, reject) => {
+                        setTimeout(function () {
+                            triggerPull(link).then((data) => {
+                                resolve(data);
+                            }, (error) => {
+                                reject(error);
+                            });
+                        }, defaultTimeout += 1000);
                     });
-               }
+                    promises.push(promise);
+                });
+
+                Promise.all(promises).then((data) => {
+                    mainResolve(normalizeData(data));
+                }, (errors) => {
+                    console.log(errors);
+                    mainReject(errors);
+                });
+            }
         }, (err) => {
             console.log(err);
             mainReject(err);
@@ -56,12 +55,44 @@ export async function getKeys() {
     });
 }
 
+function normalizeData(arrayData) {
+    // merge all items from the array
+    function mergeArrays(arrays) {
+        var mergedArray = [];
+        _.each(arrays, arrayItem => {
+            mergedArray = _.concat(mergedArray, arrayItem);
+        });
+        return mergedArray;
+    }
+
+    function groupByKey(data): any {
+        return _.chain(data)
+            .groupBy('key.name')
+            .toPairs()
+            .map((object: any) => {
+                var object1: any = {
+                    'key': object[0],
+                    'labels': object[1]
+                };
+                return object1;
+            })
+            .value();
+    }
+
+
+    var bigArray = [];
+    bigArray = mergeArrays(arrayData);
+    bigArray = groupByKey(bigArray);
+
+    return bigArray;
+}
+
 async function triggerPull(phraseAppDownloadUrl: any) {
     return new Promise((resolve, reject) => {
         console.log('download url in triggerPull: ', phraseAppDownloadUrl);
         httpRequest(`${phraseAppDownloadUrl}`)
-            .then((responseData) => {
-               resolve(responseData);
+            .then(responseData => {
+                resolve(JSON.parse(responseData));
             })
             .catch(err => {
                 console.log('Unable to download translations :', err);
@@ -75,7 +106,7 @@ async function triggerPullAndFetchLinks(phraseAppDownloadUrl: any) {
     return new Promise((resolve, reject) => {
         httpReq(`${phraseAppDownloadUrl}`)
             .then((responseData) => {
-               resolve(responseData);
+                resolve(responseData);
             })
             .catch(err => {
                 reject(err);
@@ -126,10 +157,10 @@ function getLinks(linkObj) {
         var string = object;
         string = string.substring(0, string.indexOf(';'));
         string = string.replace('<', '');
-        string =  string.replace('>', '');
+        string = string.replace('>', '');
         return string;
     }
-    
+
     var links = [];
 
     _.each(tokanize(linkObj), (token) => {
@@ -138,6 +169,3 @@ function getLinks(linkObj) {
 
     return links;
 }
-
-
-
