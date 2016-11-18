@@ -3,10 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+
 import './rxjs-extensions';
 import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { AUTH_PROVIDERS }      from 'angular2-jwt';
+
 /**
  * Application components, Any new componenets goes in here
  */
@@ -20,6 +22,11 @@ import { PhraseAppSearchService } from './services/phrase-app-search.service';
 import { LoginService } from './services/login-app.service';
 import { AuthService } from './services/auth.service';
 
+/**
+ * Progress Bar
+ */
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+
 
 @NgModule({
   imports: [
@@ -32,6 +39,7 @@ import { AuthService } from './services/auth.service';
   declarations: [
     AppComponent,
     PhraseAppSearchComponent,
+    ProgressBarComponent,
     routedComponents
   ],
   providers: [

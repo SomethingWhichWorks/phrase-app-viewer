@@ -17,10 +17,8 @@ export async function getKeys() {
                 var linkUrlParts = URL.parse(response.links[1], true, true);
                 var lastPage = linkUrlParts.query.page;
                 var urls = [];
-
                 //Test 
-                lastPage = 4;
-
+                //lastPage = 4;
                 for (var i = 0; i < parseInt(lastPage); i++) {
                     var url = phraseAppURl.concat('translations?access_token=', accessToken, '&page=', i.toString(), '&per_page=100');
                     urls.push(url);

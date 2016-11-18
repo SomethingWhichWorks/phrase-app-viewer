@@ -81,8 +81,8 @@ function UnionAndNormalize(data: Object[]) {
 }
 
 function getLocales() {
-    var localeDownloadUrl = phraseAppURl + '?access_token=' + accessToken;
-
+    var localeDownloadUrl = phraseAppURl.concat('locales?access_token=',accessToken);
+    console.log('Download Locales: ', localeDownloadUrl);
     return new Promise((resolve, reject) =>
         httpRequest(`${localeDownloadUrl}`).then(body => {
             resolve(JSON.parse(body))
