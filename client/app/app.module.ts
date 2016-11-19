@@ -21,6 +21,7 @@ import { PhraseAppService } from './services/phrase-app.service';
 import { PhraseAppSearchService } from './services/phrase-app-search.service';
 import { LoginService } from './services/login-app.service';
 import { AuthService } from './services/auth.service';
+import { ProgressBarService } from './progress-bar/progress-bar.service';
 
 /**
  * Progress Bar
@@ -47,6 +48,7 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
     PhraseAppSearchService,
     LoginService,
     AuthService,
+    ProgressBarService,
     AUTH_PROVIDERS
   ],
   bootstrap: [AppComponent]

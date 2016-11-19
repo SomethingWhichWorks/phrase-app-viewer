@@ -1,10 +1,10 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import * as $ from 'jquery';
 
 import { Message } from '../models/message';
 import { PhraseAppService } from '../../services/phrase-app.service';
+import { ProgressBarService } from '../../progress-bar/progress-bar.service';
 
 
 @Component({
@@ -17,10 +17,11 @@ import { PhraseAppService } from '../../services/phrase-app.service';
 export class PhraseAppDashboardComponent implements OnInit {
   disableAll: boolean;
   lastLoadedTime: string;
-  @ViewChild('progressBar') progressBar: ElementRef;
+  
   constructor(
     private router: Router,
-    private phraseAppService: PhraseAppService) {
+    private phraseAppService: PhraseAppService,
+    private progessBarService: ProgressBarService) {
   }
 
   ngOnInit(): void {
@@ -30,30 +31,21 @@ export class PhraseAppDashboardComponent implements OnInit {
   }
 
   refreshKeys(): void {
-    this.showProgressBar();
+    this.progessBarService.showDialog();
     console.log('Refreshing keys ');
     this.disableAll = true;
     this.phraseAppService.getMessages(true).then(() => {
         var currentDate = moment().format();
         this.lastLoadedTime = currentDate;
         this.disableAll = false;
-        this.hideProgressBar();
+        this.progessBarService.hideDialog();
     }, () => {
        this.disableAll = false;
+       this.progessBarService.hideDialog(); 
     });
   }
 
   getLastLoaded() {
     return moment(this.lastLoadedTime).calendar();
-  }
-
-  showProgressBar() {
-    console.log('showProgressBar');
-    this.progressBar.nativeElement.modal('show');
-  }
-
-  hideProgressBar() {
-    console.log('hideProgressBar');
-    this.progressBar.nativeElement.modal('hide');
   }
 }
