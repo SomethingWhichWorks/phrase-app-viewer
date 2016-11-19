@@ -192,7 +192,7 @@ setupConfiguration().then(() => {
 
     const server = app.listen(port, () => {
         console.log("Server listening on port ", port);
-        fetchKeyTranslations();
+        //fetchKeyTranslations();
     });
 }, (err) => {
     showError('Unable to start the server, please check the configurations and try again');

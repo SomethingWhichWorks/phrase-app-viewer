@@ -27,12 +27,10 @@ export class PhraseAppDashboardComponent implements OnInit {
   ngOnInit(): void {
     var currentDate = moment().format();
     this.lastLoadedTime = currentDate;
-
   }
 
   refreshKeys(): void {
-    this.progessBarService.showDialog();
-    console.log('Refreshing keys ');
+    this.progessBarService.showDialog('Please wait until we download keys from phrase app....');
     this.disableAll = true;
     this.phraseAppService.getMessages(true).then(() => {
         var currentDate = moment().format();

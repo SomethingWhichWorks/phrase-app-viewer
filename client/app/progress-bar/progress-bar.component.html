@@ -1,10 +1,11 @@
 <!-- Modal Start here-->
-<div class="modal" id="progress-bar">
+<div class="modal fade" id="progress-bar" data-backdrop="static" data-keyboard="false" role="dialog">
     <div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">
-					<span class="glyphicon glyphicon-time"></span> Please Wait...
+					<span class="glyphicon glyphicon-time"></span> 
+					{{progressBarService.text}}
 				</h4>
 			</div>
 			<div class="modal-body">
