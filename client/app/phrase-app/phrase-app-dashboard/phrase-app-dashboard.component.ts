@@ -4,6 +4,7 @@ import * as moment from 'moment';
 
 import { Message } from '../models/message';
 import { PhraseAppService } from '../../services/phrase-app.service';
+import { PhraseAppDataService } from '../../services/phrase-app-data.service';
 import { ProgressBarService } from '../../progress-bar/progress-bar.service';
 
 
@@ -21,6 +22,7 @@ export class PhraseAppDashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private phraseAppService: PhraseAppService,
+    private PhraseAppDataService: PhraseAppDataService,
     private progessBarService: ProgressBarService) {
   }
 
@@ -29,10 +31,26 @@ export class PhraseAppDashboardComponent implements OnInit {
     this.lastLoadedTime = currentDate;
   }
 
+  // To be used phrase-app-search
   refreshPhraseAppData(): void {
     this.progessBarService.showDialog('Please wait until we download keys from phrase app....');
     this.disableAll = true;
     this.phraseAppService.getMessages(true).then(() => {
+        var currentDate = moment().format();
+        this.lastLoadedTime = currentDate;
+        this.disableAll = false;
+        this.progessBarService.hideDialog();
+    }, () => {
+       this.disableAll = false;
+       this.progessBarService.hideDialog(); 
+    });
+  }
+
+    // To be used phrase-app-advanced-search
+    refreshPhraseAppKeys(): void {
+    this.progessBarService.showDialog('Please wait until we download keys from phrase app....');
+    this.disableAll = true;
+    this.PhraseAppDataService.getMessages(true).then(() => {
         var currentDate = moment().format();
         this.lastLoadedTime = currentDate;
         this.disableAll = false;

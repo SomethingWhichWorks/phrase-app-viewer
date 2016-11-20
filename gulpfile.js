@@ -157,6 +157,19 @@ gulp.task('watch:all', function () {
 gulp.task('build:client:all', ['build:app', 'build:index', 'build:libs']);
 gulp.task('build:server:all', ['build:server', 'build:server:copyConfigFiles']);
 
+gulp.task('watch:clientOnly',  function(){
+     gulp.watch(fileConfigs.client.sourceTsFiles, ['build:app']).on('change', function (e) {
+        console.log('TypeScript file ' + e.path + ' has been changed. Compiling.');
+    });
+
+    gulp.watch(fileConfigs.client.sourceResourceFiles, ['build:index']).on('change', function (e) {
+        console.log('Html file ' + e.path + ' has been changed, bundling again.');
+    });
+});
+
+gulp.task('client:buildAndWatch', function (callback) {
+    runSequence('build:client:all','watch:clientOnly', callback);
+});
 
 gulp.task('build', function (callback) {
     runSequence('clean', 'build:server:all', 'build:client:all', 'watch:all', callback);

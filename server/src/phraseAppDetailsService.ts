@@ -5,6 +5,23 @@ import * as request from "request";
 import * as http from "http";
 import * as URL from "url";
 
+
+export async function getLabelDetails(labelId: string) {
+    var labelDownloadUrl = phraseAppURl.concat('translations/',labelId,'?access_token=', accessToken);
+    console.log(labelDownloadUrl);
+    return new Promise((resolve, reject) => {
+        httpRequest(`${labelDownloadUrl}`)
+            .then(responseData => {
+                console.log(responseData);
+                resolve(JSON.parse(responseData));
+            })
+            .catch(err => {
+                console.log('Unable to download label details :', err);
+                reject(err);
+            });
+    });
+}
+
 export async function getKeys() {
     var self = this;
     var defaultTimeout = 500;
@@ -141,7 +158,6 @@ function httpReq(uri: string) {
     });
 }
 
-
 function getLinks(linkObj) {
 
     function tokanize(data) {
@@ -168,3 +184,4 @@ function getLinks(linkObj) {
 
     return links;
 }
+

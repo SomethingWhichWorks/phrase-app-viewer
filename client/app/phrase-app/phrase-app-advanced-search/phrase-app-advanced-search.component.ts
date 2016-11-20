@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 
 import { PhraseAppSearchService } from '../../services/phrase-app-search.service';
+import { PhraseAppDataService } from '../../services/phrase-app-data.service';
 import { Message } from '../models/message';
 
 
@@ -22,6 +23,7 @@ export class PhraseAppAdvancedSearchComponent implements OnInit {
   private selectedLabel: any;
 
   constructor(
+    private PhraseAppDataService: PhraseAppDataService,
     private phraseAppSearchService: PhraseAppSearchService,
     private router: Router) { }
 
@@ -51,8 +53,12 @@ export class PhraseAppAdvancedSearchComponent implements OnInit {
     this.router.navigate(link);
   }
 
-  setSelectedLabel(labelData: any): void {
-    this.selectedLabel = labelData;
+  setSelectedLabel(id: any): void {
+    this.PhraseAppDataService.getLabelDetails(id).then(labelData => {
+        this.selectedLabel = labelData;
+    }, err => {
+        this.selectedLabel = {};
+    });
   }
 
   clearSelectedLabel(): void {
@@ -63,9 +69,9 @@ export class PhraseAppAdvancedSearchComponent implements OnInit {
      return Object.keys(object);
   } 
 
-  showMessageDetails(selectedLabel): void {
+  showMessageDetails(id): void {
     console.log('Show metadata for key Details');
-    this.setSelectedLabel(selectedLabel);
+    this.setSelectedLabel(id);
     $('#message-details-modal').modal('show');
   }
 
