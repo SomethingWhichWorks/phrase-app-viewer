@@ -35,7 +35,7 @@ export async function getKeys() {
                 var lastPage = linkUrlParts.query.page;
                 var urls = [];
                 //Test 
-                lastPage = 5;
+                //lastPage = 5;
                 for (var i = 0; i < parseInt(lastPage); i++) {
                     var url = phraseAppURl.concat('translations?access_token=', accessToken, '&page=', i.toString(), '&per_page=100');
                     urls.push(url);
