@@ -3,12 +3,14 @@ import { Observable } from 'rxjs';
 
 import { Message } from '../phrase-app/models/message';
 import { PhraseAppService } from './phrase-app.service';
+import { PhraseAppDataService } from './phrase-app-data.service';
 
 import * as _ from 'lodash';
 
 @Injectable()
 export class PhraseAppSearchService {
-    constructor(private phraseAppService: PhraseAppService) { }
+    constructor(private phraseAppService: PhraseAppService,
+        private phraseAppDataService: PhraseAppDataService) { }
 
 
     search(searchTerm: string): any {
@@ -26,4 +28,16 @@ export class PhraseAppSearchService {
                 });
             });
     }
+
+
+    searchKey(searchTerm: string): any {
+        return this.phraseAppDataService
+            .getMessages(false)
+            .then((messages) => {
+                return _.filter(messages, function (message) {
+                    return message.key.match(new RegExp('(' + searchTerm + ')', 'i'));
+                });
+            });
+    }
+
 }

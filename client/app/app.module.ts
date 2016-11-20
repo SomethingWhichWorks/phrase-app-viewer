@@ -17,7 +17,9 @@ import { AppComponent } from './app.component';
  * Phrase App Imports
  */
 import { PhraseAppSearchComponent } from './phrase-app/phrase-app-search/phrase-app-search.component';
+import { PhraseAppAdvancedSearchComponent } from './phrase-app/phrase-app-advanced-search/phrase-app-advanced-search.component';
 import { PhraseAppService } from './services/phrase-app.service';
+import { PhraseAppDataService } from './services/phrase-app-data.service';
 import { PhraseAppSearchService } from './services/phrase-app-search.service';
 import { LoginService } from './services/login-app.service';
 import { AuthService } from './services/auth.service';
@@ -40,11 +42,13 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
   declarations: [
     AppComponent,
     PhraseAppSearchComponent,
+    PhraseAppAdvancedSearchComponent,
     ProgressBarComponent,
     routedComponents
   ],
   providers: [
     PhraseAppService,
+    PhraseAppDataService,
     PhraseAppSearchService,
     LoginService,
     AuthService,

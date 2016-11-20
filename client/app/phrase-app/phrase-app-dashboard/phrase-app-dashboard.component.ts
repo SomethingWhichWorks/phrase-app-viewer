@@ -29,7 +29,7 @@ export class PhraseAppDashboardComponent implements OnInit {
     this.lastLoadedTime = currentDate;
   }
 
-  refreshKeys(): void {
+  refreshPhraseAppData(): void {
     this.progessBarService.showDialog('Please wait until we download keys from phrase app....');
     this.disableAll = true;
     this.phraseAppService.getMessages(true).then(() => {

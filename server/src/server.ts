@@ -45,6 +45,7 @@ setupConfiguration().then(() => {
     /*
      *  START : BLOCK - /api/phraseapp/data.json
      */
+    var isFetchPhraseAppDataInProgress = false;
     var cachedPhraseappData = {
         timeStamp: null,
         data: null
@@ -55,19 +56,26 @@ setupConfiguration().then(() => {
 
         function fetchDataAndSendResponse() {
             getDataFromPhraseApp().then(function (body: any) {
+                isFetchPhraseAppDataInProgress = false;
                 res.setHeader("Content-Type", "application/json");
                 cachedPhraseappData.timeStamp = now;
                 cachedPhraseappData.data = body;
-                res.send(body);
+                res.send(cachedPhraseappData.data);
             })
                 .catch(function (err: any) {
+                    isFetchPhraseAppDataInProgress = false;
                     res.send(err);
                 });
         }
 
+        if (isFetchPhraseAppDataInProgress) {
+            res.setHeader("Content-Type", "application/json");
+            res.send({ 'message': 'Update is in progress, please try again after some time' });
+        }
 
         if (cachedPhraseappData.timeStamp && cachedPhraseappData.data) {
             if (now - cachedPhraseappData.timeStamp > 300000) {     // If request comes after 5 minutes, then fetch new data
+                isFetchPhraseAppDataInProgress = true;
                 fetchDataAndSendResponse();
             } else {
                 res.setHeader("Content-Type", "application/json");
@@ -75,6 +83,7 @@ setupConfiguration().then(() => {
             }
         } else {
             fetchDataAndSendResponse();
+            isFetchPhraseAppDataInProgress = true;
         }
     });
 
@@ -86,7 +95,7 @@ setupConfiguration().then(() => {
      *  Get Translation keys and all data -> experimental
      *  START : BLOCK /api/phraseapp/keys
      */
-    var isFetchInProgress = false;
+    var isFetchKeysInProgress = false;
     var cachedPhraseappTranslations = {
         timeStamp: null,
         data: null
@@ -97,19 +106,19 @@ setupConfiguration().then(() => {
     }
 
 
-//fetch keys from backend
+    //fetch keys from backend
     function fetchKeyTranslations() {
         var now = getCurrentTimeStamp();
-        isFetchInProgress = true;
+        isFetchKeysInProgress = true;
         return new Promise((resolve, reject) => {
             getKeys().then((body: any) => {
-                isFetchInProgress = false;
+                isFetchKeysInProgress = false;
                 console.log('saving cache');
                 cachedPhraseappTranslations.timeStamp = now;
                 cachedPhraseappTranslations.data = body;
                 resolve(body);
             }, (err) => {
-                isFetchInProgress = false;
+                isFetchKeysInProgress = false;
                 console.log(err);
                 reject(err);
             });
@@ -132,7 +141,7 @@ setupConfiguration().then(() => {
             });
         }
 
-        if (isFetchInProgress) {
+        if (isFetchKeysInProgress) {
             res.setHeader("Content-Type", "application/json");
             res.send({ 'message': 'Update is in progress, please try again after some time' });
         }
@@ -150,7 +159,7 @@ setupConfiguration().then(() => {
             fetchKeysAndSendResponse();
         }
 
-        
+
 
     });
 
@@ -192,7 +201,8 @@ setupConfiguration().then(() => {
 
     const server = app.listen(port, () => {
         console.log("Server listening on port ", port);
-        //fetchKeyTranslations();
+        //Calling Fetch Key Translations -> to preload data
+        fetchKeyTranslations();
     });
 }, (err) => {
     showError('Unable to start the server, please check the configurations and try again');
