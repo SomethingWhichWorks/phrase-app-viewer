@@ -2,11 +2,12 @@
 	<div class="form-group">
 		<h4> <strong>Search for any key</strong> </h4>
 		<input #searchBox id="search-box" class="form-control input-lg search-box" (keyup)="search(searchBox.value)" placeholder="pay or Pay or domestic or cross or CRoss or CroSs">
+		Records matching filter<strong>{{totalRecords}}</strong>
 	</div>
 </form>
 <br>
 <div>
-	<div *ngFor="let message of messages | async; let rowIndex = index" class="search-result">
+	<div *ngFor="let message of messages | async; let rowIndex = index;" class="search-result">
 		<div class="jumbotron">
 			<div class="row">
 				<div class="col-md-8 message-key">
@@ -37,8 +38,8 @@
 		<div class="modal-dialog bs-example-modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" (click)="clearSelectedMessage()" data-dismiss="modal">&times;</button>
-					<h2>
+					<button type="button" class="close" (click)="clearSelectedLabel()" data-dismiss="modal">&times;</button>
+					<h4>
 						<div class="row">
 								<div class="col-md-4 message-locale">
 									<strong>{{selectedLabel.locale.name}}</strong>
@@ -47,7 +48,7 @@
 									{{selectedLabel.content}}
 								</div>
 						</div>
-					</h2>	
+					</h4>	
 				</div>
 				<div class="modal-body">
 					<div class="well">
