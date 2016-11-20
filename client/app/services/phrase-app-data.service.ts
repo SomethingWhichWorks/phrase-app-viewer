@@ -7,8 +7,8 @@ import { Message } from '../phrase-app/models/message';
 import * as _ from 'lodash';
 
 @Injectable()
-export class PhraseAppService {
-    private phraseAppUrl = '/api/phraseapp/data.json';  // URL to web api
+export class PhraseAppDataService {
+    private phraseAppUrl = '/api/phraseapp/keys';  // URL to web api
     private phraseAppData: Message[] = [];
 
     constructor(private http: Http) {

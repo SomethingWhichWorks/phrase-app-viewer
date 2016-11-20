@@ -1,12 +1,20 @@
 import { readFile } from "./promisified-io";
 
-var configFile: string;
 export var phraseAppURl: string;
-export var phraseAppData: any[] = [];
 export var accessToken: string;
 
 export async function setupConfiguration() {
-    configFile = await readFile(__dirname + "/config.json");
-    phraseAppURl = JSON.parse(configFile).phraseAppUrl;
-    accessToken = process.env.PHRASEAPP_ACCESS_TOKEN;
+
+    return new Promise((resolve, reject) => {
+        readFile(__dirname + "/config.json").then((configFile) => {
+            phraseAppURl = JSON.parse(configFile).phraseAppUrl;
+            accessToken = process.env.PHRASEAPP_ACCESS_TOKEN;
+            resolve();
+        }, err => {
+            console.log('Something wrong with config file, please check \'config.json\' configuration');
+            reject();
+        })
+
+    });
+
 }

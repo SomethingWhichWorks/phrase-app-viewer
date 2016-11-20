@@ -4,6 +4,7 @@ import * as moment from 'moment';
 
 import { Message } from '../models/message';
 import { PhraseAppService } from '../../services/phrase-app.service';
+import { ProgressBarService } from '../../progress-bar/progress-bar.service';
 
 
 @Component({
@@ -14,12 +15,13 @@ import { PhraseAppService } from '../../services/phrase-app.service';
 })
 
 export class PhraseAppDashboardComponent implements OnInit {
-   
   disableAll: boolean;
   lastLoadedTime: string;
+  
   constructor(
     private router: Router,
-    private phraseAppService: PhraseAppService) {
+    private phraseAppService: PhraseAppService,
+    private progessBarService: ProgressBarService) {
   }
 
   ngOnInit(): void {
@@ -27,15 +29,17 @@ export class PhraseAppDashboardComponent implements OnInit {
     this.lastLoadedTime = currentDate;
   }
 
-  refreshKeys(): void {
-    console.log('Refreshing keys ');
+  refreshPhraseAppData(): void {
+    this.progessBarService.showDialog('Please wait until we download keys from phrase app....');
     this.disableAll = true;
     this.phraseAppService.getMessages(true).then(() => {
         var currentDate = moment().format();
         this.lastLoadedTime = currentDate;
         this.disableAll = false;
+        this.progessBarService.hideDialog();
     }, () => {
        this.disableAll = false;
+       this.progessBarService.hideDialog(); 
     });
   }
 

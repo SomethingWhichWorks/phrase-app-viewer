@@ -45,7 +45,7 @@ export async function getDataFromPhraseApp() {
 async function triggerPull(locale: any) {
 
     return new Promise((resolve, reject) => {
-        var phraseAppDownloadUrl = phraseAppURl.concat('/',locale.id, '/download?file_format=json&access_token=', accessToken);
+        var phraseAppDownloadUrl = phraseAppURl.concat('locales/',locale.id, '/download?file_format=json&access_token=', accessToken);
         console.log('download url : ', phraseAppDownloadUrl);
         httpRequest(`${phraseAppDownloadUrl}`)
             .then(body => {
@@ -81,8 +81,8 @@ function UnionAndNormalize(data: Object[]) {
 }
 
 function getLocales() {
-    var localeDownloadUrl = phraseAppURl + '?access_token=' + accessToken;
-
+    var localeDownloadUrl = phraseAppURl.concat('locales?access_token=',accessToken);
+    console.log('Download Locales: ', localeDownloadUrl);
     return new Promise((resolve, reject) =>
         httpRequest(`${localeDownloadUrl}`).then(body => {
             resolve(JSON.parse(body))
