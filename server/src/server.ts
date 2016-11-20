@@ -1,5 +1,5 @@
 import { getDataFromPhraseApp } from "./phraseAppService";
-import { getKeys } from "./phraseAppDetailsService";
+import { getKeys, getLabelDetails } from "./phraseAppDetailsService";
 import { authenticateUser } from "./login.service";
 import { readFile } from "./promisified-io";
 import { setupConfiguration } from "./configuration";
@@ -158,28 +158,33 @@ setupConfiguration().then(() => {
         } else {
             fetchKeysAndSendResponse();
         }
+    });
 
-
-
+    /**
+     *  Fetch Label Metadata, user details who last updated etc  
+     */
+    app.get('/api/phraseapp/label/:id', (req: any, res: any) => {
+        console.log('Label Id :', req.params.id);
+        getLabelDetails(req.params.id).then(data => {
+            res.setHeader("Content-Type", "application/json");
+            res.send(data);
+        }, err => {
+            res.setHeader("Content-Type", "application/json");
+            res.status(500).send({'error':err});
+        });
     });
 
     //  END: BLOCK /api/phraseapp/keys
-
     // Add headers
     app.use(function (req, res, next) {
-
         // Website you wish to allow to connect
         res.setHeader('Access-Control-Allow-Origin', '*');
-
         // Request headers you wish to allow
         res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-
         // Pass to next layer of middleware
         next();
     });
-
     app.use(function (req, res, next) {
-
         if (req.path.indexOf('api') !== -1) {
             var logResp = {
                 'Time': Date.now(),

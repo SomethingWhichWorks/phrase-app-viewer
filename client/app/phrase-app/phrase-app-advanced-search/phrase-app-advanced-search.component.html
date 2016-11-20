@@ -2,7 +2,6 @@
 	<div class="form-group">
 		<h4> <strong>Search for any key</strong> </h4>
 		<input #searchBox id="search-box" class="form-control input-lg search-box" (keyup)="search(searchBox.value)" placeholder="pay or Pay or domestic or cross or CRoss or CroSs">
-		Records matching filter<strong>{{totalRecords}}</strong>
 	</div>
 </form>
 <br>
@@ -22,12 +21,12 @@
 						<strong>{{message.labels[key].locale.name}}</strong>
 					</div>
 					<div class="col-md-6 message-text">
-						<a (click)="showMessageDetails(message.labels[key])">
+						<a (click)="showMessageDetails(message.labels[key].id)">
 							{{message.labels[key].content}}
 						</a>
 					</div>
 					<div class="col-md-3 message-text">
-						<button type="button" (click)="setSelectedLabel(message.labels[key])" class="btn btn-default" data-toggle="modal" data-target="#message-details-modal">Show metadata</button>
+						<button type="button" (click)="setSelectedLabel(message.labels[key].id)" class="btn btn-default" data-toggle="modal" data-target="#message-details-modal">Show metadata</button>
 					</div>
 				</div>
 			</div>
@@ -39,7 +38,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" (click)="clearSelectedLabel()" data-dismiss="modal">&times;</button>
-					<h4>
+					<strong>
 						<div class="row">
 								<div class="col-md-4 message-locale">
 									<strong>{{selectedLabel.locale.name}}</strong>
@@ -48,7 +47,7 @@
 									{{selectedLabel.content}}
 								</div>
 						</div>
-					</h4>	
+					</strong>	
 				</div>
 				<div class="modal-body">
 					<div class="well">
@@ -62,10 +61,42 @@
 						</div>
 						<div class="row">
 							<div class="col-md-4 message-locale">
+								<strong>locale</strong>
+							</div>
+							<div class="col-md-8 message-text">
+								{{selectedLabel.locale.name}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 message-locale">
+								<strong>Locale Id</strong>
+							</div>
+							<div class="col-md-8 message-text">
+								{{selectedLabel.locale.id}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 message-locale">
 								<strong>Updated On</strong>
 							</div>
 							<div class="col-md-8 message-text">
 								{{toMomentCalendarText(selectedLabel.updated_at)}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5 message-locale">
+								<strong>Updated By username</strong>
+							</div>
+							<div class="col-md-7 message-text">
+								{{selectedLabel.user.username}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 message-locale">
+								<strong>Updated By user</strong>
+							</div>
+							<div class="col-md-8 message-text">
+								{{selectedLabel.user.name}}
 							</div>
 						</div>
 					</div>

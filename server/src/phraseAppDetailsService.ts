@@ -5,6 +5,23 @@ import * as request from "request";
 import * as http from "http";
 import * as URL from "url";
 
+
+export async function getLabelDetails(labelId: string) {
+    var labelDownloadUrl = phraseAppURl.concat('translations/',labelId,'?access_token=', accessToken);
+    console.log(labelDownloadUrl);
+    return new Promise((resolve, reject) => {
+        httpRequest(`${labelDownloadUrl}`)
+            .then(responseData => {
+                console.log(responseData);
+                resolve(JSON.parse(responseData));
+            })
+            .catch(err => {
+                console.log('Unable to download label details :', err);
+                reject(err);
+            });
+    });
+}
+
 export async function getKeys() {
     var self = this;
     var defaultTimeout = 500;
@@ -18,7 +35,7 @@ export async function getKeys() {
                 var lastPage = linkUrlParts.query.page;
                 var urls = [];
                 //Test 
-                //lastPage = 5;
+                lastPage = 5;
                 for (var i = 0; i < parseInt(lastPage); i++) {
                     var url = phraseAppURl.concat('translations?access_token=', accessToken, '&page=', i.toString(), '&per_page=100');
                     urls.push(url);
@@ -141,7 +158,6 @@ function httpReq(uri: string) {
     });
 }
 
-
 function getLinks(linkObj) {
 
     function tokanize(data) {
@@ -168,3 +184,4 @@ function getLinks(linkObj) {
 
     return links;
 }
+
