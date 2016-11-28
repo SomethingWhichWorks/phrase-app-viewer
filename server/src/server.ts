@@ -6,7 +6,7 @@ import { join } from "path";
 import { Configuration } from "./support/configuration";
 import { LoginRouter } from './login/login.router';
 import { PhraseAppBasicRouter } from './phrase-app-basic/phraseAppBasic.router';
-import { PhraseAppDetailsRouter } from './phrase-app-details/phraseAppDetails.router';
+import { PhraseAppDetailsRouter } from './phrase-app-details/PhraseAppDetails.router';
 
 var app = express();
 var router = express.Router();
@@ -64,29 +64,21 @@ try {
                 console.log(JSON.stringify(logResp));
                 next();
             });
-            console.log('stage 1');
-
-            /*var loginRouter = new LoginRouter();
+            
+            var loginRouter = new LoginRouter();
             var phraseAppBasicRouter = new PhraseAppBasicRouter();
-            var PhraseAppDetailsRouter = new PhraseAppDetailsRouter();
-*/
-            /*console.log('stage 1.0');
+            var phraseAppDetailsRouter = new PhraseAppDetailsRouter();
+            
+
             loginRouter.init(app);
-            console.log('stage 1.1');
             phraseAppBasicRouter.init(app);
-            console.log('stage 1.2');
-            PhraseAppDetailsRouter.init(app);
-            console.log('stage 1.3');
-
-            console.log('stage 2');*/
-
+            phraseAppDetailsRouter.init(app);
+            
             app.get('/', router);
-            console.log('trying the server start');
+            
             const server = app.listen(port, () => {
                 console.log("Server listening on port ", port);
             });
-
-
         }, (err) => {
             showError('Unable to start the server, please check the configurations and try again');
             process.exit();
