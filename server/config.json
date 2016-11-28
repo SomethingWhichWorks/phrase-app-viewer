@@ -1,3 +1,4 @@
 {
-  "phraseAppUrl": "https://api.phraseapp.com/api/v2/projects/b2b0fefb62b8d6decdf8101eb018a765/"  
+  "phrase_App_Url": "https://api.phraseapp.com/api/v2/projects/b2b0fefb62b8d6decdf8101eb018a765/",
+  "MONGO_DB_URL":"mongodb://localhost:27017/phrase-app-db"  
 }
