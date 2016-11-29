@@ -5,17 +5,18 @@ import { Configuration } from "../support/configuration";
 import * as _ from "lodash";
 
 export class PhraseAppBasicService {
-    public async getDataFromPhraseApp() {
+    public async getDataFromPhraseApp = () => {
         var defaultTimeout = 500;
+        var self = this;
 
         return new Promise((mainResolve, mainReject) => {
             var promises: Promise<any>[] = [];
 
-            return this.getLocales().then(locales => {
+            return self.getLocales().then(locales => {
                 _.forEach(locales, function (chunk) {
                     var promise = new Promise((resolve, reject) => {
                         setTimeout(function () {
-                            this.triggerPull(chunk).then((data) => {
+                            self.triggerPull(chunk).then((data) => {
                                 resolve(data);
                             }, (error) => {
                                 reject(error);
@@ -33,7 +34,7 @@ export class PhraseAppBasicService {
                         });
                     });
 
-                    var resolvedData = this.UnionAndNormalize(array);
+                    var resolvedData = self.UnionAndNormalize(array);
                     mainResolve(resolvedData);
                 }, (errors) => {
                     console.log(errors);
@@ -44,7 +45,7 @@ export class PhraseAppBasicService {
     }
 
     // Trigger pull, actual phraseapp work happens here 
-    private async triggerPull(locale: any) {
+    private async triggerPull = (locale: any) => {
         return new Promise((resolve, reject) => {
             var phraseAppDownloadUrl = Configuration.phraseAppURl.concat('locales/', locale.id, '/download?file_format=json&access_token=', Configuration.accessToken);
             console.log('download url : ', phraseAppDownloadUrl);
@@ -58,7 +59,7 @@ export class PhraseAppBasicService {
                     reject(err);
                 });
         });
-    }
+    };
 
     private normalizeResponse(data: Object, locale: string) {
         return _.forEach(data, function (value: any, key: string) {

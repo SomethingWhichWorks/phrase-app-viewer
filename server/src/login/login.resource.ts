@@ -9,7 +9,7 @@ export class LoginResource {
         return res.status(200).json({ message: 'Login API Healthcheck Successful' });
     }
 
-    authenticateUser(req, res) {
+    authenticateUser = (req, res) => {
         console.log(JSON.stringify(req.body));
         res.setHeader("Content-Type", "application/json");
         var resp = this.loginService.authenticateUser(req.body);

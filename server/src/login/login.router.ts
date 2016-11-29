@@ -1,16 +1,16 @@
 'use strict';
-import { LoginResource } from "./login.resource";
+import {LoginResource} from "./login.resource";
 
 export class LoginRouter {
     app: any;
     loginResource = new LoginResource();
 
-    init(app) {
+    init = (app) => {
         this.app = app;
         this.addRoutes();
     }
 
-    addRoutes() {
+    addRoutes = () => {
         this.app.route('/api/login')
             .head(this.loginResource.healthcheck)
             .post(this.loginResource.authenticateUser);

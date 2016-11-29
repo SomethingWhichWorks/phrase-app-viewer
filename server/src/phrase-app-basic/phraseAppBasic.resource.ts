@@ -16,7 +16,7 @@ export class PhraseAppBasicResource {
         return res.status(200).json({ message: 'PhraseAppBasicResource API Healthcheck Successful' });
     }
 
-    getTranslations(req, res) {
+    getTranslations = (req, res) => {
         this.now = Date.now();
 
         if (this.isFetchPhraseAppDataInProgress) {
@@ -39,7 +39,7 @@ export class PhraseAppBasicResource {
 
     }
 
-    private fetchDataAndSendResponse(req, res) {
+    private fetchDataAndSendResponse = (req, res) => {
         this.phraseAppBasicService.getDataFromPhraseApp()
             .then(function (body: any) {
                 this.isFetchPhraseAppDataInProgress = false;

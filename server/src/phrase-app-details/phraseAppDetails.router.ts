@@ -5,12 +5,12 @@ export class PhraseAppDetailsRouter {
     app: any;
     phraseAppDetailsResource = new PhraseAppDetailsResource();
 
-    init(app) {
+    public init(app) {
         this.app = app;
         this.addRoutes();
     }
 
-    addRoutes() {
+    public addRoutes() {
         this.app.route('/api/phraseapp/keys')
             .head(this.phraseAppDetailsResource.healthcheck)
             .get(this.phraseAppDetailsResource.getTranslations);

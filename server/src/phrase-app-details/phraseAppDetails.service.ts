@@ -1,6 +1,6 @@
 'use strict';
-import { PromisedIO } from "../support/promisified-io";
-import { Configuration } from "../support/configuration";
+import {PromisedIO} from "../support/promisified-io";
+import {Configuration} from "../support/configuration";
 
 import * as _ from "lodash";
 import * as request from "request";
@@ -11,7 +11,7 @@ export class PhraseAppDetailsService {
 
     // public method exposed
     public async getLabelDetails(labelId: string) {
-        var labelDownloadUrl = Configuration.phraseAppURl.concat('translations/', labelId, '?access_token=', accessToken);
+        var labelDownloadUrl = Configuration.phraseAppURl.concat('translations/', labelId, '?access_token=', Configuration.accessToken);
         console.log(labelDownloadUrl);
         return new Promise((resolve, reject) => {
             PromisedIO.httpRequest(`${labelDownloadUrl}`)
@@ -26,12 +26,14 @@ export class PhraseAppDetailsService {
         });
     }
 
-    public async getKeys() {
+    public async getKeys = () => {
         var defaultTimeout = 500;
         var phraseAppDownloadUrl = Configuration.phraseAppURl.concat('translations?access_token=', Configuration.accessToken, '&page=1&per_page=100');
         return new Promise((mainResolve, mainReject) => {
             var promises: Promise<any>[] = [];
-            this.triggerPullAndFetchLinks(phraseAppDownloadUrl).then((response) => {
+            var self = this;
+
+            self.triggerPullAndFetchLinks(phraseAppDownloadUrl).then((response) => {
                 if (response.links) {
                     //3 links are sent, second [1] link contains the last page number
                     var linkUrlParts = URL.parse(response.links[1], true, true);
@@ -43,11 +45,11 @@ export class PhraseAppDetailsService {
                         var url = Configuration.phraseAppURl.concat('translations?access_token=', Configuration.accessToken, '&page=', i.toString(), '&per_page=100');
                         urls.push(url);
                     }
-                    _.forEach(urls, (link) => {
 
+                    _.forEach(urls, (link) => {
                         var promise = new Promise((resolve, reject) => {
                             setTimeout(function () {
-                                this.triggerPull(link).then((data) => {
+                                self.triggerPull(link).then((data) => {
                                     resolve(data);
                                 }, (error) => {
                                     reject(error);
@@ -71,7 +73,7 @@ export class PhraseAppDetailsService {
                 console.log(err);
             });
         });
-    }
+    };
 
     // merge all items from the array
     private mergeArrays(arrays) {
@@ -122,8 +124,7 @@ export class PhraseAppDetailsService {
     }
 
     //Trigger pull and fetch links
-    private async triggerPullAndFetchLinks(phraseAppDownloadUrl: any) {
-        var phraseAppData = [];
+    private async triggerPullAndFetchLinks = (phraseAppDownloadUrl: any) => {
         return new Promise((resolve, reject) => {
             this.httpReq(`${phraseAppDownloadUrl}`)
                 .then((responseData) => {
@@ -133,10 +134,10 @@ export class PhraseAppDetailsService {
                     reject(err);
                 });
         });
-    }
+    };
 
     //
-    private getLinks(linkObj) {
+    private getLinks = (linkObj) => {
         var links = [];
         _.each(this.tokanize(linkObj), (token) => {
             links.push(this.removeAdditionalParams(token));

@@ -1,5 +1,5 @@
 'use strict';
-import { PhraseAppDetailsService } from "./PhraseAppDetails.service";
+import {PhraseAppDetailsService} from "./PhraseAppDetails.service";
 
 export class PhraseAppDetailsResource {
     private phraseAppDetailsService = new PhraseAppDetailsService();
@@ -12,23 +12,21 @@ export class PhraseAppDetailsResource {
     private now = this.getCurrentTimeStamp();
 
     //constructor
-    PhraseAppDetailsResource() {
+    constructor() {
         //init when services start    
         this.fetchKeyTranslations();
-    }
+    };
 
-    healthcheck(req, res) {
+    healthcheck = (req, res) => {
         console.log('PhraseAppDetailsResource API Healthcheck Successful');
-        return res.status(200).json({ message: 'PhraseAppDetailsResource API Healthcheck Successful' });
-    }
+        return res.status(200).json({message: 'PhraseAppDetailsResource API Healthcheck Successful'});
+    };
 
-    getTranslations(req, res) {
+    public getTranslations = (req, res) => {
         this.now = this.getCurrentTimeStamp();
-
-
         if (this.isFetchKeysInProgress) {
             res.setHeader("Content-Type", "application/json");
-            res.send({ 'message': 'Update is in progress, please try again after some time' });
+            res.send({'message': 'Update is in progress, please try again after some time'});
         }
 
         if (this.cachedPhraseappTranslations.timeStamp && this.cachedPhraseappTranslations.data) {
@@ -43,24 +41,23 @@ export class PhraseAppDetailsResource {
         } else {
             this.fetchKeysAndSendResponse(req, res);
         }
-    }
+    };
 
     // Get Label details for label Id
-    getLabelDetails(req, res) {
+    public getLabelDetails = (req, res) => {
         console.log('Label Id :', req.params.id);
         this.phraseAppDetailsService.getLabelDetails(req.params.id).then(data => {
             res.setHeader("Content-Type", "application/json");
             res.send(data);
         }, err => {
             res.setHeader("Content-Type", "application/json");
-            res.status(500).send({ 'error': err });
+            res.status(500).send({'error': err});
         });
-    }
-
+    };
 
 
     // Force Fetch data if needed
-    private fetchKeysAndSendResponse(req, res) {
+    private fetchKeysAndSendResponse = (req, res) => {
         console.log('fetchKeysAndSendResponse');
         this.fetchKeyTranslations().then(() => {
             console.log('Sending Response after saving cache');
@@ -70,7 +67,7 @@ export class PhraseAppDetailsResource {
             res.status = 500;
             res.send(err);
         });
-    }
+    };
 
     // Get Currency Time Stamp
     private getCurrentTimeStamp() {
@@ -78,7 +75,7 @@ export class PhraseAppDetailsResource {
     }
 
     //fetch keys from backend
-    private fetchKeyTranslations() {
+    private fetchKeyTranslations = () => {
         var now = this.getCurrentTimeStamp();
         this.isFetchKeysInProgress = true;
         return new Promise((resolve, reject) => {
