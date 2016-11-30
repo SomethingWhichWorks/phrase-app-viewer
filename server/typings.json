@@ -3,7 +3,10 @@
   "version": false,
   "dependencies": {
     "body-parser": "registry:npm/body-parser#1.15.2+20160815132839",
-    "debug": "registry:npm/debug#2.0.0+20160723033700"
+    "debug": "registry:npm/debug#2.0.0+20160723033700",
+    "express": "registry:npm/express#4.14.0+20160925001530",
+    "lodash": "registry:npm/lodash#4.0.0+20161015015725",
+    "request": "registry:npm/request#2.69.0+20160428223725"
   },
   "ambientDependencies": {
     "express": "registry:dt/express#4.0.0+20160208031452",

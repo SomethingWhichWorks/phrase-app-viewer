@@ -14,8 +14,8 @@ var fileConfigs = {
         'mainIndexFile': 'index.html'
     },
     'server': {
-        sourceTsFiles: ['server/src/**/*.ts', 'server/typings/index.d.ts'],
-        ignoreTsFiles: [],
+        sourceTsFiles: ['server/src/**/*.ts'],
+        ignoreTsFiles: ['server/typings/index.d.ts'],
         tsConfigFile: 'server/tsconfig.json',
         additionConfigs: 'server/config.json'
     },
