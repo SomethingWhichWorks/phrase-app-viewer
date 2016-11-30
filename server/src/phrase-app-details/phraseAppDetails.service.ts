@@ -1,6 +1,6 @@
 'use strict';
-import {PromisedIO} from "../support/promisified-io";
-import {Configuration} from "../support/configuration";
+import {PromisedIO} from '../support/promisified-io';
+import {Configuration} from '../support/configuration';
 
 import * as _ from "lodash";
 import * as request from "request";
@@ -40,7 +40,7 @@ export class PhraseAppDetailsService {
                     var lastPage = linkUrlParts.query.page;
                     var urls = [];
                     //Test 
-                    //lastPage = 5;
+                    lastPage = 4;
                     for (var i = 0; i < parseInt(lastPage); i++) {
                         var url = Configuration.phraseAppURl.concat('translations?access_token=', Configuration.accessToken, '&page=', i.toString(), '&per_page=100');
                         urls.push(url);

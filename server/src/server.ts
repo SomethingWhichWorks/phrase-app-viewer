@@ -8,6 +8,8 @@ import { LoginRouter } from './login/login.router';
 import { PhraseAppBasicRouter } from './phrase-app-basic/phraseAppBasic.router';
 import { PhraseAppDetailsRouter } from './phrase-app-details/PhraseAppDetails.router';
 
+import { DatabaseClientService } from './common/services/databaseClient.service';
+
 var app = express();
 var router = express.Router();
 
@@ -68,8 +70,9 @@ try {
             var loginRouter = new LoginRouter();
             var phraseAppBasicRouter = new PhraseAppBasicRouter();
             var phraseAppDetailsRouter = new PhraseAppDetailsRouter();
-            
+            var databaseClientService = new DatabaseClientService();
 
+            databaseClientService.init();
             loginRouter.init(app);
             phraseAppBasicRouter.init(app);
             phraseAppDetailsRouter.init(app);
