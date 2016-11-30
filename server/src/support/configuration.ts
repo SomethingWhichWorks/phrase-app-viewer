@@ -15,7 +15,13 @@ export class Configuration {
                 var configFileJson = JSON.parse(configFile);
                 Configuration.phraseAppURl = configFileJson.phrase_App_Url;
                 Configuration.accessToken = process.env.PHRASEAPP_ACCESS_TOKEN;
-                Configuration.mongoDbUrl = configFileJson.MONGO_DB_URL;
+                var urlFromConfigFile = configFileJson.MONGO_DB_URL;
+
+                if (process.env.MONGO_DB_URL && process.env.MONGO_DB_URL !== undefined) {
+                    Configuration.mongoDbUrl = process.env.MONGO_DB_URL;
+                } else {
+                    Configuration.mongoDbUrl = urlFromConfigFile;
+                }
                 resolve();
             }, err => {
                 console.log('Something wrong with config file, please check \'config.json\' configuration');

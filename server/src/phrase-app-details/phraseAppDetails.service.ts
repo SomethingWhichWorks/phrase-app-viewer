@@ -40,7 +40,8 @@ export class PhraseAppDetailsService {
                     var lastPage = linkUrlParts.query.page;
                     var urls = [];
                     //Test 
-                    lastPage = 4;
+                    //lastPage = 4;
+
                     for (var i = 0; i < parseInt(lastPage); i++) {
                         var url = Configuration.phraseAppURl.concat('translations?access_token=', Configuration.accessToken, '&page=', i.toString(), '&per_page=100');
                         urls.push(url);

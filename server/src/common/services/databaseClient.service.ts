@@ -2,26 +2,22 @@
 
 import {MongoClient} from 'mongodb';
 import {Configuration} from '../../support/configuration';
+import * as _ from "lodash";
+
 
 export class DatabaseClientService {
 
     private mongoClient = MongoClient;
     private connection;
-    private mongodbURL: string;
 
     public init = () => {
-        if (process.env.MONGO_DB_URL && process.env.MONGO_DB_URL !== undefined) {
-            this.mongodbURL = process.env.MONGO_DB_URL;
-        } else {
-            this.mongodbURL = Configuration.mongoDbUrl;
-        }
-        console.log('connecting to Mongo Db database on :',this.mongodbURL);
+        console.log('connecting to Mongo Db database on :', Configuration.mongoDbUrl);
     };
 
     private getConnection = () => {
         return new Promise((resolve, reject) => {
             if (this.connection === undefined) {
-                this.mongoClient.connect(this.mongodbURL, (err, db) => {
+                this.mongoClient.connect(Configuration.mongoDbUrl, (err, db) => {
                     if (err) {
                         console.log(err);
                         reject(err);
@@ -114,35 +110,52 @@ export class DatabaseClientService {
     };
 
     // Drop table/collection
-    public dropTable = table => {
-        var collection = this.mongoClient.collection(table);
+    public dropTable = (table) => {
         return new Promise((resolve, reject) => {
-            collection.drop((err, reply) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(reply);
+            this.getConnection().then(db => {
+
+                db.listCollections().toArray().then((replies) => {
+                    var collection = _.find(replies, (reply) => {
+                        return reply.name === table;
+                    });
+
+                    if (collection) {
+                        collection = db.collection(table);
+                        collection.drop((err, reply) => {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(reply);
+                        });
+                    } else {
+                        resolve();
+                    }
+                });
+
             });
         });
     };
 
     //rename the collection/table
     public renameTable = (oldName, newName) => {
-        var collection = this.mongoClient.collection(oldName);
-        return Promise((resolve, reject) => {
-            if (oldName === newName) {
-                reject('old and new names shouldbe different');
-            }
 
-            collection.rename(newName, (err, newCollection) => {
-                if (err) {
-                    reject(err);
+        return new Promise((resolve, reject) => {
+            this.getConnection().then(db => {
+                var collection = db.collection(oldName);
+
+                if (oldName === newName) {
+                    reject('old and new names should be different');
                 }
-                resolve(newCollection);
+
+                collection.rename(newName, (err, newCollection) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(newCollection);
+                });
+
             });
-
         });
-
     };
 
 
