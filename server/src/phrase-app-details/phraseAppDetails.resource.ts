@@ -1,5 +1,5 @@
 'use strict';
-import {PhraseAppDetailsService} from "./PhraseAppDetails.service";
+import {PhraseAppDetailsService} from "./phraseAppDetails.service";
 import {DatabaseClientService} from '../common/services/databaseClient.service';
 import {Observable} from 'rxjs/Rx';
 

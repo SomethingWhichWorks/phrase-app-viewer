@@ -1,5 +1,5 @@
 'use strict';
-import { PhraseAppBasicService } from "./PhraseAppBasic.service";
+import { PhraseAppBasicService } from "./phraseAppBasic.service";
 
 export class PhraseAppBasicResource {
     phraseAppBasicService = new PhraseAppBasicService();
