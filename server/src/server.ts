@@ -6,7 +6,7 @@ import { join } from "path";
 import { Configuration } from "./support/configuration";
 import { LoginRouter } from './login/login.router';
 import { PhraseAppBasicRouter } from './phrase-app-basic/phraseAppBasic.router';
-import { PhraseAppDetailsRouter } from './phrase-app-details/PhraseAppDetails.router';
+import { PhraseAppDetailsRouter } from './phrase-app-details/phraseAppDetails.router';
 
 import { DatabaseClientService } from './common/services/databaseClient.service';
 
