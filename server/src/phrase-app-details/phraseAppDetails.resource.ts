@@ -1,6 +1,7 @@
 'use strict';
 import {PhraseAppDetailsService} from "./PhraseAppDetails.service";
 import {DatabaseClientService} from '../common/services/databaseClient.service';
+import {Observable} from 'rxjs/Rx';
 
 export class PhraseAppDetailsResource {
     private phraseAppDetailsService = new PhraseAppDetailsService();
@@ -14,38 +15,24 @@ export class PhraseAppDetailsResource {
 
     private table: string = 'detailed-translations';
     private dbClient: DatabaseClientService;
-
+    private ticks = 0;
     //constructor
     constructor() {
         //init when services start    
-        this.fetchKeyTranslations();
         this.dbClient = new DatabaseClientService();
+
+        // added a 30 minute timer to rerun jobs
+        let timer = Observable.timer(2000,1800000);
+        timer.subscribe( t => {
+            console.log('Triggering a phraseapp sync...');
+            this.ticks = t;
+            this.fetchKeyTranslations();
+        });
     };
 
     healthcheck = (req, res) => {
         console.log('PhraseAppDetailsResource API Healthcheck Successful');
         return res.status(200).json({message: 'PhraseAppDetailsResource API Healthcheck Successful'});
-    };
-
-    public getTranslationsOld = (req, res) => {
-        this.now = this.getCurrentTimeStamp();
-        if (this.isFetchKeysInProgress) {
-            res.setHeader("Content-Type", "application/json");
-            res.send({'message': 'Update is in progress, please try again after some time'});
-        }
-
-        if (this.cachedPhraseappTranslations.timeStamp && this.cachedPhraseappTranslations.data) {
-            console.log('Trying Cached keys');
-            if (this.now - this.cachedPhraseappTranslations.timeStamp > 3600000) {     // If request comes after 5 minutes, then fetch new data
-                this.fetchKeysAndSendResponse(req, res);
-            } else {
-                console.log('Data to be returned : ', this.cachedPhraseappTranslations.data.length);
-                res.setHeader("Content-Type", "application/json");
-                res.send(this.cachedPhraseappTranslations.data);
-            }
-        } else {
-            this.fetchKeysAndSendResponse(req, res);
-        }
     };
 
     public getTranslations = (req, res) => {
