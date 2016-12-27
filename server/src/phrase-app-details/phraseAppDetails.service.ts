@@ -9,6 +9,22 @@ import * as URL from "url";
 
 export class PhraseAppDetailsService {
 
+    cachedTranslations = {
+        timeStamp: null,
+        data: null
+    };
+
+    //getter
+    public getCachedTranslations() {
+        return this.cachedTranslations;
+    }
+
+    //setter
+    public setCachedTranslations(translations) {
+        this.cachedTranslations = translations;
+    }
+
+
     // public method exposed
     public async getLabelDetails(labelId: string) {
         var labelDownloadUrl = Configuration.phraseAppURl.concat('translations/', labelId, '?access_token=', Configuration.accessToken);
@@ -40,7 +56,7 @@ export class PhraseAppDetailsService {
                     var lastPage = linkUrlParts.query.page;
                     var urls = [];
                     //Test 
-                    //lastPage = 4;
+                    //lastPage = 6;
 
                     for (var i = 0; i < parseInt(lastPage); i++) {
                         var url = Configuration.phraseAppURl.concat('translations?access_token=', Configuration.accessToken, '&page=', i.toString(), '&per_page=100');

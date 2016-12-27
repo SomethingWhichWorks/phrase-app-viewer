@@ -14,7 +14,7 @@ export class PhraseAppDataService {
     private phraseAppData: Message[] = [];
 
     constructor(private http: Http) {
-        //this.init();
+        this.init();
     }
 
     private init() {

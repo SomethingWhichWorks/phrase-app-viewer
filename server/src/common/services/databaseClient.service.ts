@@ -1,7 +1,7 @@
 'use strict';
 
-import {MongoClient} from 'mongodb';
-import {Configuration} from '../../support/configuration';
+import { MongoClient } from 'mongodb';
+import { Configuration } from '../../support/configuration';
 import * as _ from "lodash";
 
 
@@ -11,7 +11,7 @@ export class DatabaseClientService {
     private connection;
 
     public init = () => {
-        console.log('connecting to Mongo Db database on :', Configuration.mongoDbUrl);
+        //console.log('connecting to Mongo Db database on :', Configuration.mongoDbUrl);
     };
 
     private getConnection = () => {
@@ -19,7 +19,7 @@ export class DatabaseClientService {
             if (this.connection === undefined) {
                 this.mongoClient.connect(Configuration.mongoDbUrl, (err, db) => {
                     if (err) {
-                        console.log(err);
+                        //console.log(err);
                         reject(err);
                     }
                     this.connection = db;
@@ -34,7 +34,7 @@ export class DatabaseClientService {
     // we should call this whenever application close
     private closeConnection = () => {
         this.connection.close();
-        console.log('Connection to db closed');
+        //console.log('Connection to db closed');
     };
 
 
@@ -112,48 +112,69 @@ export class DatabaseClientService {
     // Drop table/collection
     public dropTable = (table) => {
         return new Promise((resolve, reject) => {
+            //console.log('planning to drop: ', table);
             this.getConnection().then(db => {
-
-                db.listCollections().toArray().then((replies) => {
-                    var collection = _.find(replies, (reply) => {
-                        return reply.name === table;
+                this.checkIfTableExist(table).then(() => {
+                    var collection = db.collection(table);
+                    collection.drop((err, reply) => {
+                        if (err) {
+                            //console.log(table, ' - unable to drop table');
+                            reject(err);
+                        }
+                        //console.log(table, ' - Table dropped successfully');
+                        resolve(reply);
                     });
-
-                    if (collection) {
-                        collection = db.collection(table);
-                        collection.drop((err, reply) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            resolve(reply);
-                        });
-                    } else {
-                        resolve();
-                    }
+                }, () => {
+                    //console.log(table, ' - no need to drop table, table does not exist');
+                    resolve();
                 });
-
             });
         });
     };
 
     //rename the collection/table
     public renameTable = (oldName, newName) => {
-
         return new Promise((resolve, reject) => {
             this.getConnection().then(db => {
-                var collection = db.collection(oldName);
 
-                if (oldName === newName) {
-                    reject('old and new names should be different');
-                }
+                this.checkIfTableExist(oldName).then(() => {
+                    var collection = db.collection(oldName);
 
-                collection.rename(newName, (err, newCollection) => {
-                    if (err) {
-                        reject(err);
+                    if (oldName === newName) {
+                        reject('old and new names should be different');
                     }
-                    resolve(newCollection);
+
+                    collection.rename(newName, (err, newCollection) => {
+                        if (err) {
+                            //console.log('Unable to rename table: ', oldName, ',  error thrown : ', err);    
+                            reject(err);
+                        }
+                        //console.log('Renamed table successfully: ', oldName, ' to new table : ', newName);
+                        resolve(newCollection);
+                    });
+                }, () => {
+                    //console.log('No need to replace table as old table does not exist');    
+                    reject();    
+                });
+            });
+        });
+    };
+
+    //check if table exist
+    private checkIfTableExist = (table: string) => {
+        return new Promise((resolve, reject) => {
+            this.getConnection().then(db => {
+                db.listCollections().toArray().then((replies) => {
+                    var collection = _.find(replies, (reply: any) => {
+                        //console.log('table :', reply.name);
+                        return reply.name === table;
+                    });
+                    collection !== undefined ? resolve() : reject();
                 });
 
+            }, err => {
+                //console.log('Unable to get DB connection to check if table exist');
+                reject();
             });
         });
     };
