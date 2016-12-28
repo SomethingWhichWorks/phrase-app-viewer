@@ -22,8 +22,8 @@ export class PhraseAppDetailsResource {
         this.dbClient = new DatabaseClientService();
 
         // added a 30 minute timer to rerun jobs
-        //let timer = Observable.timer(2000,1800000);
-        let timer = Observable.timer(2000, 120000);
+        let timer = Observable.timer(2000,3600000);
+        //let timer = Observable.timer(2000, 120000);
         timer.subscribe(t => {
             console.log('Triggering a phraseapp sync...');
             this.ticks = t;
