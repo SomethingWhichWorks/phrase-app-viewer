@@ -10,18 +10,6 @@ branches:
   only:
     - new-setup-with-angular2
     - master
-cache:
-  apt : true
-  directories:
-    - node_modules
-before_deploy: 
-  - cd dist    
-deploy:
-  provider: heroku
-  app: phrase-app-viewer
-  skip_cleanup: true
-  api_key:
-    secure: "$HEROKU_APP_KEY"
 notifications:
   email:
       - kulkarni.mak172@gmail.com
