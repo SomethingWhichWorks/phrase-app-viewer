@@ -1,6 +1,10 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as _ from "lodash";
+import http = require("http");
+import https = require("https");
+import fs = require('fs');
+
 import { join } from "path";
 
 import { Configuration } from "./support/configuration";
@@ -79,9 +83,24 @@ try {
             
             app.get('/', router);
             
-            const server = app.listen(port, () => {
+           /* const server = app.listen(port, () => {
                 console.log("Server listening on port ", port);
+            });*/
+
+            //Need the https enabled in server
+            var privateKey  = fs.readFileSync('/opt/keys/phrase-app-server-key.pem', 'utf8');
+            var certificate = fs.readFileSync('/opt/keys/phrase-app-server-cert.pem', 'utf8');
+
+            var credentials = {key: privateKey, cert: certificate};
+
+            app.listen(80, (req, res) => {
+                console.log("Server listening on http port ", port);
+                res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+                res.end();
             });
+
+            var httpsServer = https.createServer(credentials, app);
+            httpsServer.listen(443);
         }, (err) => {
             showError('Unable to start the server, please check the configurations and try again');
             process.exit();
