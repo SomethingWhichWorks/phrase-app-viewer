@@ -25,7 +25,7 @@ export class Configuration {
                     Configuration.mongoDbUrl = urlFromConfigFile;
                 }
 
-                Configuration.httpPort = process.env.http_port ||  configFileJson.http_port;
+                Configuration.httpPort = process.env.port ||  configFileJson.http_port;
                 Configuration.httpsPort = process.env.https_port ||  configFileJson.https_port;    
 
 
