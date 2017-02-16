@@ -175,8 +175,12 @@ gulp.task('build', function (callback) {
     runSequence('clean', 'build:server:all', 'build:client:all', 'watch:all', callback);
 });
 
+gulp.task('build-release', function (callback) {
+    runSequence('build:server:all', 'build:client:all', callback);
+});
+
 gulp.task('default', ['build']);
 
-gulp.task('build-release', function (callback) {
-    runSequence('clean', 'copy:packagejson','build:server:all', 'build:client:all', callback);
+gulp.task('gulp-release', function (callback) {
+    runSequence('clean', 'build-release',  'copy:packagejson', callback);
 });

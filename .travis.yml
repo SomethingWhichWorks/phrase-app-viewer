@@ -5,7 +5,7 @@ env:
   - NODE_ENV=travis
 install:
   - npm install
-  - gulp build-release
+  - gulp gulp-release
 branches:
   only:
     - new-setup-with-angular2
