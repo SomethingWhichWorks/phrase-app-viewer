@@ -4,64 +4,80 @@ import * as moment from 'moment';
 
 import { Message } from '../models/message';
 import { PhraseAppService } from '../../services/phrase-app.service';
-import { PhraseAppDataService } from '../../services/phrase-app-data.service';
 import { ProgressBarService } from '../../progress-bar/progress-bar.service';
 
 
 @Component({
-  moduleId: module.id,
-  selector: 'phrase-app-dashboard',
-  templateUrl: 'phrase-app-dashboard.component.html',
-  styleUrls: ['phrase-app-dashboard.component.css']
+    moduleId: module.id,
+    selector: 'phrase-app-dashboard',
+    templateUrl: 'phrase-app-dashboard.component.html',
+    styleUrls: ['phrase-app-dashboard.component.css']
 })
 
 export class PhraseAppDashboardComponent implements OnInit {
-  disableAll: boolean;
-  lastLoadedTime: string;
-  
-  constructor(
-    private router: Router,
-    private phraseAppService: PhraseAppService,
-    private PhraseAppDataService: PhraseAppDataService,
-    private progessBarService: ProgressBarService) {
-  }
+    disableAll: boolean;
+    lastLoadedTime: string;
+    message: string;
 
-  ngOnInit(): void {
-    var currentDate = moment().format();
-    this.lastLoadedTime = currentDate;
-  }
+    constructor(private router: Router,
+        private phraseAppService: PhraseAppService,
+        private progessBarService: ProgressBarService) {
+    }
 
-  // To be used phrase-app-search
-  refreshPhraseAppData(): void {
-    this.progessBarService.showDialog('Please wait until we download keys from phrase app....');
-    this.disableAll = true;
-    this.phraseAppService.getMessages(true).then(() => {
+    ngOnInit(): void {
         var currentDate = moment().format();
         this.lastLoadedTime = currentDate;
-        this.disableAll = false;
-        this.progessBarService.hideDialog();
-    }, () => {
-       this.disableAll = false;
-       this.progessBarService.hideDialog(); 
-    });
-  }
+        this.progessBarService.showDialog('We are preparing for fluent searching experience ....');
+        this.phraseAppService.getMessages(true).then((response) => {
+            if (response.message) {
+                this.message = response.message;
+            } else {
+                this.message = undefined;
+            }
+            this.progessBarService.hideDialog();
+            this.startMessageRemovalTimer();
+        }, (err) => {
+            this.progessBarService.hideDialog();
+            this.message = "Unable to refresh labels at this time, please try again later";
+            this.startMessageRemovalTimer();
+        });
+    }
 
-    // To be used phrase-app-advanced-search
-    refreshPhraseAppKeys(): void {
-    this.progessBarService.showDialog('Please wait until we download keys from phrase app....');
-    this.disableAll = true;
-    this.PhraseAppDataService.getMessages(true).then(() => {
-        var currentDate = moment().format();
-        this.lastLoadedTime = currentDate;
-        this.disableAll = false;
-        this.progessBarService.hideDialog();
-    }, () => {
-       this.disableAll = false;
-       this.progessBarService.hideDialog(); 
-    });
-  }
+    // To be used phrase-app-search
+    refreshPhraseAppData(): void {
+        this.progessBarService.showDialog('Please wait until we download keys from phrase app....');
+        this.disableAll = true;
+        this.phraseAppService.getMessages(true).then((response) => {
+            var currentDate = moment().format();
 
-  getLastLoaded() {
-    return moment(this.lastLoadedTime).calendar();
-  }
+            if (response.message) {
+                this.message = response.message;
+            } else {
+                this.message = undefined;
+            }
+
+            this.lastLoadedTime = currentDate;
+            this.disableAll = false;
+            this.progessBarService.hideDialog();
+            this.startMessageRemovalTimer();
+        }, () => {
+            this.disableAll = false;
+            this.progessBarService.hideDialog();
+            this.message = "Unable to refresh labels at this time, please try again later";
+            this.startMessageRemovalTimer();
+           
+        });
+    }
+
+    getLastLoaded() {
+        return moment(this.lastLoadedTime).calendar();
+    }
+
+    startMessageRemovalTimer() {
+         setTimeout(() => {
+            this.message = undefined;
+        }, 5000);
+    }
+
+    
 }

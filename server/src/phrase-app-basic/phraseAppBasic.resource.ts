@@ -17,39 +17,41 @@ export class PhraseAppBasicResource {
     }
 
     getTranslations = (req, res) => {
-        this.now = Date.now();
+        var self = this;
+        self.now = Date.now();
 
-        if (this.isFetchPhraseAppDataInProgress) {
+        if (self.isFetchPhraseAppDataInProgress) {
             res.setHeader("Content-Type", "application/json");
             res.send({ 'message': 'Update is in progress, please try again after some time' });
         }
 
-        if (this.cachedPhraseappData.timeStamp && this.cachedPhraseappData.data) {
-            if (this.now - this.cachedPhraseappData.timeStamp > 300000) {     // If request comes after 5 minutes, then fetch new data
-                this.isFetchPhraseAppDataInProgress = true;
-                this.fetchDataAndSendResponse(req, res);
+        if (self.cachedPhraseappData.timeStamp && self.cachedPhraseappData.data) {
+            if (self.now - this.cachedPhraseappData.timeStamp > 300000) {     // If request comes after 5 minutes, then fetch new data
+                self.isFetchPhraseAppDataInProgress = true;
+                self.fetchDataAndSendResponse(req, res);
             } else {
                 res.setHeader("Content-Type", "application/json");
-                res.send(this.cachedPhraseappData.data);
+                res.send(self.cachedPhraseappData.data);
             }
         } else {
-            this.fetchDataAndSendResponse(req, res);
-            this.isFetchPhraseAppDataInProgress = true;
+            self.fetchDataAndSendResponse(req, res);
+            self.isFetchPhraseAppDataInProgress = true;
         }
 
     }
 
     private fetchDataAndSendResponse = (req, res) => {
-        this.phraseAppBasicService.getDataFromPhraseApp()
+        var self = this; 
+        self.phraseAppBasicService.getDataFromPhraseApp()
             .then(function (body: any) {
-                this.isFetchPhraseAppDataInProgress = false;
+                self.isFetchPhraseAppDataInProgress = false;
                 res.setHeader("Content-Type", "application/json");
-                this.cachedPhraseappData.timeStamp = this.now;
-                this.cachedPhraseappData.data = body;
-                res.send(this.cachedPhraseappData.data);
+                self.cachedPhraseappData.timeStamp = self.now;
+                self.cachedPhraseappData.data = body;
+                res.send(self.cachedPhraseappData.data);
             })
             .catch(function (err: any) {
-                this.isFetchPhraseAppDataInProgress = false;
+                self.isFetchPhraseAppDataInProgress = false;
                 res.send(err);
             });
     }

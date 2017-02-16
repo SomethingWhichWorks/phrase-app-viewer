@@ -24,7 +24,7 @@ export class AuthService {
 
     constructor(private router: Router) {
         // Add callback for lock `authenticated` event
-        this.lock.on('authenticated', (authResult) => {
+        this.lock.on('authenticated', authResult => {
             localStorage.setItem('id_token', authResult.idToken);
             // Fetch profile information
             this.lock.getProfile(authResult.idToken, (error, profile) => {
@@ -37,6 +37,18 @@ export class AuthService {
                 this.router.navigate(['phrase-app-dashboard']);
                 this.lock.hide();
             });
+        });
+
+        this.lock.on('authorization_error', error => {
+            console.log('Error thrown while authorizing: ', error);
+        });
+
+        this.lock.on('hash_parsed', resp => {
+            console.log('Response is : ', resp);
+        });
+
+        this.lock.on('unrecoverable_error', authenticationResult => {
+            console.log('unrecoverable Error with result: ', authenticationResult);
         });
     }
 
@@ -59,7 +71,6 @@ export class AuthService {
 
     public getLoggedInUserName() {
         var obj = JSON.parse(localStorage.getItem('profile'));
-        console.log(obj);
         if (obj) {
             return obj.name;
         } else {

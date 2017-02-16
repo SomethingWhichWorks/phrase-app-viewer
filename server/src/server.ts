@@ -10,9 +10,6 @@ import { join } from "path";
 import { Configuration } from "./support/configuration";
 import { LoginRouter } from './login/login.router';
 import { PhraseAppBasicRouter } from './phrase-app-basic/phraseAppBasic.router';
-import { PhraseAppDetailsRouter } from './phrase-app-details/phraseAppDetails.router';
-
-import { DatabaseClientService } from './common/services/databaseClient.service';
 
 var app = express();
 var router = express.Router();
@@ -73,34 +70,29 @@ try {
             
             var loginRouter = new LoginRouter();
             var phraseAppBasicRouter = new PhraseAppBasicRouter();
-            var phraseAppDetailsRouter = new PhraseAppDetailsRouter();
-            var databaseClientService = new DatabaseClientService();
-
-            databaseClientService.init();
             loginRouter.init(app);
             phraseAppBasicRouter.init(app);
-            phraseAppDetailsRouter.init(app);
             
+
+            // Added routers            
             app.get('/', router);
-            
-           /* const server = app.listen(port, () => {
-                console.log("Server listening on port ", port);
-            });*/
 
             //Need the https enabled in server
             var privateKey  = fs.readFileSync('/opt/keys/phrase-app-server-key.pem', 'utf8');
             var certificate = fs.readFileSync('/opt/keys/phrase-app-server-cert.pem', 'utf8');
 
             var credentials = {key: privateKey, cert: certificate};
-
-            app.listen(80, (req, res) => {
-                console.log("Server listening on http port ", port);
-                res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-                res.end();
+            
+            //starting and listening http server
+            app.listen(Configuration.httpPort, () => {
+                console.log("Server is listening on http port ", Configuration.httpPort);
             });
 
+            //starting and listening https server
             var httpsServer = https.createServer(credentials, app);
-            httpsServer.listen(443);
+            httpsServer.listen(Configuration.httpsPort, () => {
+                console.log("Server is also listening on https port ", Configuration.httpsPort);
+            });
         }, (err) => {
             showError('Unable to start the server, please check the configurations and try again');
             process.exit();

@@ -7,6 +7,8 @@ export class Configuration {
     static phraseAppURl: string;
     static accessToken: string;
     static mongoDbUrl: string;
+    static httpPort: string;
+    static httpsPort: string;
 
     static async setupConfiguration() {
         return new Promise((resolve, reject) => {
@@ -22,6 +24,11 @@ export class Configuration {
                 } else {
                     Configuration.mongoDbUrl = urlFromConfigFile;
                 }
+
+                Configuration.httpPort = process.env.http_port ||  configFileJson.http_port;
+                Configuration.httpsPort = process.env.https_port ||  configFileJson.https_port;    
+
+
                 resolve();
             }, err => {
                 console.log('Something wrong with config file, please check \'config.json\' configuration');
