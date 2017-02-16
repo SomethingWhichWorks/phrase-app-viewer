@@ -78,10 +78,10 @@ try {
             app.get('/', router);
 
             //Need the https enabled in server
-            var privateKey  = fs.readFileSync('/opt/keys/phrase-app-server-key.pem', 'utf8');
+            /*var privateKey  = fs.readFileSync('/opt/keys/phrase-app-server-key.pem', 'utf8');
             var certificate = fs.readFileSync('/opt/keys/phrase-app-server-cert.pem', 'utf8');
 
-            var credentials = {key: privateKey, cert: certificate};
+            var credentials = {key: privateKey, cert: certificate};*/
             
             //starting and listening http server
             app.listen(Configuration.httpPort, () => {
@@ -89,10 +89,10 @@ try {
             });
 
             //starting and listening https server
-            var httpsServer = https.createServer(credentials, app);
+            /*var httpsServer = https.createServer(credentials, app);
             httpsServer.listen(Configuration.httpsPort, () => {
                 console.log("Server is also listening on https port ", Configuration.httpsPort);
-            });
+            });*/
         }, (err) => {
             showError('Unable to start the server, please check the configurations and try again');
             process.exit();

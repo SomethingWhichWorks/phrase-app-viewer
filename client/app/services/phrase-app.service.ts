@@ -17,14 +17,6 @@ export class PhraseAppService {
     }
 
     private init() {
-        /*this.http
-            .get(this.phraseAppUrl)
-            .toPromise()
-            .then(response => {
-                this.phraseAppData = response.json();
-            })
-            .catch(this.handleError);*/
-
         this.getMessages(true).then((response) => {
             if (response.message) {
                 setTimeout(() => {
